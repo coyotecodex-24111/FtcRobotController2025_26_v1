@@ -32,9 +32,9 @@ package org.firstinspires.ftc.teamcode;
 // Declare imports
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
+// import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+// import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="TeleopWithoutAuto", group="Linear OpMode")
@@ -46,70 +46,7 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
     DcMotor leftBackDrive = null;
     DcMotor rightFrontDrive = null;
     DcMotor rightBackDrive = null;
-    DcMotor arm = null;
-    DcMotor viper = null;
-    CRServo intake       = null; //the claw servo
-    Servo    wrist       = null; //the wrist servo
 
-    //times 5 because the gear ratio is 100:20
-    final double TICKS_FULL_ROTATION_ARM = 1425.1 * 5;
-    final double TICKS_FULL_ROTATION_VIPER =  384.5;
-    final double TICKS_ONE_DEGREE = TICKS_FULL_ROTATION_ARM /360;
-    double newTargetPosition;
-    //divied by 4.75 because it is the number of inches per 1 rev of the motor
-    final double TICKS_ONE_INCH = TICKS_FULL_ROTATION_VIPER / 4.75;
-
-
-
-    final double INTAKE_COLLECT    = -1.0;
-    final double INTAKE_OFF        =  0.0;
-    final double INTAKE_DEPOSIT    =  0.5;
-
-    /* Variables to store the positions that the wrist should be set to when folding in, or folding out. */
-    final double WRIST_FOLDED_IN   = 0.8333;
-    final double WRIST_FOLDED_OUT  = 0.5;
-
-    final double ARM_COLLAPSED_INTO_ROBOT  = 0;
-    final double ARM_COLLECT               = 240;
-    final double ARM_CLEAR_BARRIER         = 230;
-    final double ARM_SCORE_SPECIMEN        = 160;
-    final double ARM_SCORE_SAMPLE_IN_LOW   = 162;
-    final double ARM_SCORE_SAMPLE_IN_HIGH  = 148;
-    static final int ARM_HANG = 22;
-    static final int ARM_STRAIGHT_UP_A2 = 108;
-    static final int ARM_SAFETY_POSITION = 11;
-    static final int ARM_ADJUST_DEG = 1;
-    static final int VIPER_ADJUST_INCH = 1;
-    final double VIPER_INTAKE = 5;
-    final double VIPER_LOW_BASKET = 0;
-    final double VIPER_HIGH_BASKET = 19;
-    final double VIPER_SAFETY_POSITION = 0;
-    final double DRIVE_POSITION = 108;
-    final double TRIGGER_THRESHOLD = 0.3;
-    final double INIT_ARM_LEN = 21;
-    final double MAX_ARM_SHADOW = 21;
-    final int ARM_HOR_DEG = 200;
-    final double ARM_BACK = 126;
-
-    // Declare constant
-    // ALL CAPS MEANS DO NOT CHANGE VARIABLE
-    static final double MAX_POS = 1.0;
-    static final double MIN_POS = 0.0;
-
-    /*
-    static final int CORRECTION_DEG = 4;
-
-    static final int PICK_UP_DEG = 253 + CORRECTION_DEG;
-
-    static final int CLEAR_BARRIER_DEG = 240 + CORRECTION_DEG;
-
-    static final int SCORE_POSITION_DEG = 160 + CORRECTION_DEG;
-
-
-    */
-
-    int armTargetDeg;
-    int viperTargetlength;
 
     double driveSpeed = 0.7;
     double turnSpeed = 0.6;
@@ -125,16 +62,6 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        wrist = hardwareMap.get(Servo.class, "wrist");
-        intake = hardwareMap.get(CRServo.class, "intake");
-        arm = hardwareMap.get(DcMotor.class,"arm");
-        arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        viper = hardwareMap.get(DcMotor.class,"viper");
-        viper.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        viperTargetlength = 0;
-        viper.setDirection(DcMotor.Direction.REVERSE);
-        intake.setPower(INTAKE_OFF);
-
 
         // Initialize servo variables
 
@@ -163,14 +90,6 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        viper.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armTargetDeg = ARM_SAFETY_POSITION;
-        moveArmPosition(armTargetDeg);
-        wrist.setPosition(WRIST_FOLDED_IN);
-
-
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
@@ -189,17 +108,6 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
                 driveSpeed = 0.4;
                 turnSpeed = 0.3;
             }
-            //intake control
-            if (gamepad2.dpad_up) {
-                intake.setPower(INTAKE_DEPOSIT);
-            }
-            if (gamepad2.dpad_left) {
-                intake.setPower(INTAKE_OFF);
-            }
-            if (gamepad2.dpad_down) {
-                intake.setPower(INTAKE_COLLECT);
-            }
-
 
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
@@ -228,109 +136,6 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
                 rightBackPower /= max;
             }
 
-            // if gamepad 1's a button is pressed and when we get the position of our arm servo. If the value for our position is not
-            // equal to END_POS_YP, then we will set the servo arm position to START_POS_YP.
-
-
-            if (gamepad2.right_trigger > TRIGGER_THRESHOLD) {
-                viperTargetlength = (int) VIPER_SAFETY_POSITION;
-                armTargetDeg = (int) DRIVE_POSITION;
-                moveViperSlide(viperTargetlength, armTargetDeg);
-                sleep(1000); //FIXME Test retraction time and adjust
-                moveArmPosition(armTargetDeg);
-            }
-            //Space
-
-
-            if (gamepad2.x) {
-                //Move Viper Slide 238 degrees
-                //rotate wrist to position .50
-                //Move Viper Slide 5in
-                //rotate intake clockwise continuously
-                armTargetDeg = (int)ARM_COLLECT;
-                moveArmPosition(armTargetDeg);
-                sleep(1000);
-                wrist.setPosition(WRIST_FOLDED_OUT);
-                sleep(500);
-                viperTargetlength = (int) VIPER_INTAKE;
-                moveViperSlide(viperTargetlength, armTargetDeg);
-                //intake.setPower(INTAKE_COLLECT);
-            }
-            else if (gamepad2.b) {
-                armTargetDeg = (int)ARM_CLEAR_BARRIER;
-                moveArmPosition(armTargetDeg);
-                viperTargetlength = 0;
-                moveViperSlide(viperTargetlength, armTargetDeg);
-                intake.setPower(INTAKE_OFF);
-            }
-            else if (gamepad2.a) {
-                armTargetDeg = (int)ARM_SCORE_SAMPLE_IN_LOW;
-                moveArmPosition(armTargetDeg);
-                sleep(1000);
-                //wrist.setPosition(WRIST_FOLDED_OUT);
-                //sleep(1000);
-                viperTargetlength = (int) VIPER_LOW_BASKET;
-                moveViperSlide(viperTargetlength, armTargetDeg);
-                intake.setPower(INTAKE_OFF);
-                wrist.setPosition(WRIST_FOLDED_OUT);
-            }
-            else if (gamepad2.y) {
-                armTargetDeg = (int)ARM_SCORE_SAMPLE_IN_HIGH;
-                moveArmPosition(armTargetDeg);
-                sleep(1000);
-                //wrist.setPosition(WRIST_FOLDED_OUT);
-                //sleep(1000);
-                viperTargetlength = (int) VIPER_HIGH_BASKET;
-                moveViperSlide(viperTargetlength, armTargetDeg);
-                intake.setPower(INTAKE_OFF);
-                wrist.setPosition(WRIST_FOLDED_OUT);
-            }
-            else if (gamepad2.dpad_right) {
-                intake.setPower(INTAKE_OFF);
-                viperTargetlength = (int) VIPER_SAFETY_POSITION;
-                moveViperSlide(viperTargetlength, armTargetDeg);
-                sleep(2000);
-                wrist.setPosition(WRIST_FOLDED_IN);
-                armTargetDeg = ARM_SAFETY_POSITION;
-                moveArmPosition(armTargetDeg);
-
-            }
-            else if (gamepad2.left_bumper) { //straight up to prepare for A2
-                intake.setPower(INTAKE_OFF);
-                viperTargetlength = (int) VIPER_SAFETY_POSITION;
-                moveViperSlide(viperTargetlength, armTargetDeg);
-                sleep(2000);
-                wrist.setPosition(WRIST_FOLDED_IN);
-                armTargetDeg = ARM_STRAIGHT_UP_A2;
-                moveArmPosition(armTargetDeg);
-            }
-            else if (gamepad2.left_trigger > 0.3) {
-                intake.setPower(INTAKE_OFF);
-                armTargetDeg = ARM_HANG;
-                moveArmPosition(armTargetDeg);
-
-            }
-
-            else if (gamepad1.left_trigger > TRIGGER_THRESHOLD) {
-                armTargetDeg = armTargetDeg - ARM_ADJUST_DEG;
-                moveArmPosition(armTargetDeg);
-            }
-            else if (gamepad1.left_bumper) {
-                armTargetDeg = armTargetDeg + ARM_ADJUST_DEG;
-                moveArmPosition(armTargetDeg);
-            }
-
-            if (gamepad1.right_bumper){
-                viperTargetlength = viperTargetlength - VIPER_ADJUST_INCH;
-                moveViperSlide(viperTargetlength, armTargetDeg);
-            }
-            else if (gamepad1.right_trigger > TRIGGER_THRESHOLD) {
-                viperTargetlength = viperTargetlength + VIPER_ADJUST_INCH;
-                moveViperSlide(viperTargetlength, armTargetDeg);
-            }
-            else if (gamepad1.dpad_left) {
-                moveViperSlide(0, armTargetDeg);
-            }
 
 
             // Uncomment the following code to test your motor directions.
@@ -361,57 +166,7 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
             telemetry.update();
         }
     }
-    public void moveArmPosition(int newTargetDegrees){
-        double newTargetPosition = newTargetDegrees * TICKS_ONE_DEGREE;
-        arm.setTargetPosition((int)newTargetPosition);
-
-        arm.setPower(0.5);
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        telemetry.addLine("done with encoder method: " + newTargetDegrees);
-        telemetry.update();
-        sleep(100);
-    }
-    public void moveViperSlide(double newTargetExtensionInches, int currArmPos) {
-       double newTargetPosition;
-       double maxExt = 0;
-       int armAngle = -1;
-       double maxArmLen = INIT_ARM_LEN;
-        telemetry.addLine("MOVING VIPER SLIDE: " + currArmPos + "  " + newTargetExtensionInches);
-        telemetry.update();
-        //sleep(1000);
-        if (currArmPos < ARM_BACK) {
-            maxExt = 0;
-            telemetry.addLine("arm BACK at: " + currArmPos + "  " + armAngle);
-            telemetry.addLine("max arm length: " + maxArmLen + "  " + maxExt);
-            telemetry.update();
-            //sleep(1000);
-        }
-        else {
-            armAngle = Math.abs(ARM_HOR_DEG - currArmPos);
-            maxArmLen = INIT_ARM_LEN / Math.cos(armAngle * Math.PI / 180);
-            maxExt = maxArmLen - INIT_ARM_LEN;
-            maxExt = Math.max(maxExt,0);
-
-            telemetry.addLine("arm forward at: " + currArmPos + " arm angle: " + armAngle);
-            telemetry.addLine("max arm length: " + maxArmLen + " max extension: " + maxExt);
-            telemetry.update();
-            //sleep(1000);
-        }
-
-        newTargetExtensionInches = Math.min(newTargetExtensionInches, maxExt);
-        newTargetPosition = newTargetExtensionInches * TICKS_ONE_INCH;
-        viper.setTargetPosition((int) newTargetPosition);
-
-        // arm.setTargetPosition((int)100);
-
-        viper.setPower(0.5);
-        viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        telemetry.addLine("done with encoder method: " + newTargetExtensionInches);
-        telemetry.update();
-        //sleep(100);
-    }
 }
-
 
 
 
