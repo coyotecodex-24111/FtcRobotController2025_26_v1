@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 // import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="TeleopWithoutAuto", group="Linear OpMode")
+@TeleOp(name="TeleopChasisOnly2023ChasisV1", group="Linear OpMode")
 public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -109,12 +109,10 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
                 turnSpeed = 0.3;
             }
 
-
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral = gamepad1.left_stick_x;
-            double yaw =
-                    gamepad1.right_stick_x;
+            double yaw = gamepad1.right_stick_x;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -135,8 +133,6 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
                 leftBackPower /= max;
                 rightBackPower /= max;
             }
-
-
 
             // Uncomment the following code to test your motor directions.
             // Each button should make the corresponding motor run FORWARD.
