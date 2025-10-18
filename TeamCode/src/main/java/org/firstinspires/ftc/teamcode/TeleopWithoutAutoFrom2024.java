@@ -30,11 +30,10 @@
 package org.firstinspires.ftc.teamcode;
 
 // Declare imports
-// import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 // import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 // import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -50,60 +49,42 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="TeleopWithoutAutoFrom2024", group="TeleOp Basic")
 // Code taken from 2024 robot and cleaned up as starting point for 2025.
 public class TeleopWithoutAutoFrom2024 extends OpMode {
+    private Robot robot;
     public final double VERSION = 1;
     final ElapsedTime runtime = new ElapsedTime();
     // Declare OpMode members for each of the 4 motors.
-    DcMotor leftFrontDrive = null;
-    DcMotor leftBackDrive = null;
-    DcMotor rightFrontDrive = null;
-    DcMotor rightBackDrive = null;
+
     double driveSpeed = 0.7;
     double turnSpeed = 0.6;
 
     @Override
     public void init() {
-
-        // Initialize the hardware variables. Note that the strings used here must correspond
-        // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-
-
-        // ########################################################################################
-        // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
-        // ########################################################################################
-        // Most robots need the motors on one side to be reversed to drive forward.
-        // The motor reversals shown here are for a "direct drive" robot (t     he wheels turn the same direction as the motor shaft)
-        // If your robot has additional gear reductions or uses a right-angled drive, it's important to ensure
-        // that your motors are turning in the correct direction.  So, start out with the reversals here, BUT
-        // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
-        // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
-        // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        robot = new Robot(hardwareMap, telemetry);
+        robot.init();
 
         runtime.reset();
-        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Status", "Initialized for TeleOp");
         telemetry.addData("Status (Version: " + VERSION + ") Initialized", "Run Time: " + runtime);
 
         telemetry.update();
     }
 
     @Override
+    public void init_loop() {
+        telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
+        telemetry.addData("Status", "Initialized for TeleOp (INIT LOOP)");
+        telemetry.update();
+    }
+
+    @Override
+    public void start() {
+        telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
+        telemetry.addData("Status", "Started for TeleOp (START)");
+        telemetry.update();
+    }
+
+    @Override
     public void loop() {
-
-        // Set mode for motors
-
-        // winch.setDirection(DcMotor.Direction.FORWARD);
-        // Wait for the game to start (driver presses PLAY)
-
-
-        double max;
-
         // Speed control with dpad. Like a knob where the top is highest.
         if (gamepad1.dpad_up) {
             driveSpeed = 1;
@@ -133,7 +114,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
         // Normalize the values so no wheel power exceeds 100%
         // This ensures that the robot maintains the desired motion.
-        max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
         max = Math.max(max, Math.abs(leftBackPower));
         max = Math.max(max, Math.abs(rightBackPower));
 
@@ -161,10 +142,10 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
         // Send calculated power to wheels
 
-        leftFrontDrive.setPower(leftFrontPower);
-        rightFrontDrive.setPower(rightFrontPower);
-        leftBackDrive.setPower(leftBackPower);
-        rightBackDrive.setPower(rightBackPower);
+        robot.leftFrontDrive.setPower(leftFrontPower);
+        robot.rightFrontDrive.setPower(rightFrontPower);
+        robot.leftBackDrive.setPower(leftBackPower);
+        robot.rightBackDrive.setPower(rightBackPower);
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
         telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);

@@ -9,13 +9,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-// import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 // Linear Opmode is for sequential code like in Autonomous operation
 // (doing things in a linear fashion, one after the other.
 
 @Autonomous(name="AutoModeBasicV1", group="Auto Basic")
-// Code taken from 2024 robot and cleaned up as starting point for 2025.
+
 public class AutoModeBasicV1 extends LinearOpMode {
     private Robot robot;
     public final double VERSION = 1;
