@@ -30,31 +30,38 @@
 package org.firstinspires.ftc.teamcode;
 
 // Declare imports
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+// import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 // import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 // import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="TeleopChasisOnly2023ChasisV1", group="Linear OpMode")
-public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
+// import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+// Linear Opmode is for sequential code like in Autonomous operation
+// (doing things in a linear fashion, one after the other.
+
+// OpMode is for looping behavior during TeleOp
+
+// @TeleOp puts it in the TeloOp menu on the driver station
+// group can be used to further subdivide the OpMode in the driver station.
+@TeleOp(name="TeleopWithoutAutoFrom2024", group="TeleOp Basic")
+// Code taken from 2024 robot and cleaned up as starting point for 2025.
+public class TeleopWithoutAutoFrom2024 extends OpMode {
+    public final double VERSION = 1;
+    final ElapsedTime runtime = new ElapsedTime();
     // Declare OpMode members for each of the 4 motors.
-    private ElapsedTime runtime = new ElapsedTime();
     DcMotor leftFrontDrive = null;
     DcMotor leftBackDrive = null;
     DcMotor rightFrontDrive = null;
     DcMotor rightBackDrive = null;
-
-
     double driveSpeed = 0.7;
     double turnSpeed = 0.6;
 
-    boolean rampUp = true;
-
     @Override
-    public void runOpMode() {
+    public void init() {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
@@ -63,7 +70,6 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
 
-        // Initialize servo variables
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -80,87 +86,88 @@ public class TeleopWithoutAutoFrom2024 extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+    }
+
+    @Override
+    public void loop() {
 
         // Set mode for motors
 
         // winch.setDirection(DcMotor.Direction.FORWARD);
         // Wait for the game to start (driver presses PLAY)
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
-        waitForStart();
+
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+        double max;
 
-            double max;
-
-            // Speed control
-            if (gamepad1.y) {
-                driveSpeed = 1;
-                turnSpeed = 1;
-            }
-            if (gamepad1.b) {
-                driveSpeed = 0.7;
-                turnSpeed = 0.6;
-            }
-            if (gamepad1.a) {
-                driveSpeed = 0.4;
-                turnSpeed = 0.3;
-            }
-
-            // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral = gamepad1.left_stick_x;
-            double yaw = gamepad1.right_stick_x;
-
-            // Combine the joystick requests for each axis-motion to determine each wheel's power.
-            // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower = driveSpeed * (axial + lateral) + turnSpeed * yaw;
-            double rightFrontPower = driveSpeed * (axial - lateral) - turnSpeed * yaw;
-            double leftBackPower = driveSpeed * (axial - lateral) + turnSpeed * yaw;
-            double rightBackPower = driveSpeed * (axial + lateral) - turnSpeed * yaw;
-
-            // Normalize the values so no wheel power exceeds 100%
-            // This ensures that the robot maintains the desired motion.
-            max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-            max = Math.max(max, Math.abs(leftBackPower));
-            max = Math.max(max, Math.abs(rightBackPower));
-
-            if (max > 1) {
-                leftFrontPower /= max;
-                rightFrontPower /= max;
-                leftBackPower /= max;
-                rightBackPower /= max;
-            }
-
-            // Uncomment the following code to test your motor directions.
-            // Each button should make the corresponding motor run FORWARD.
-            //   1) First get all the motors to take to correct positions on the robot
-            //      by adjusting your Robot Configuration if necessary.
-            //   2) Then make sure they run in the correct direction by modifying the
-            //      the setDirection() calls above.
-            // Once the correct motors move in the correct direction re-comment this code.
-
-            /*
-            leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
-            leftBackPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
-            rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
-            rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
-            */
-
-            // Send calculated power to wheels
-
-            leftFrontDrive.setPower(leftFrontPower);
-            rightFrontDrive.setPower(rightFrontPower);
-            leftBackDrive.setPower(leftBackPower);
-            rightBackDrive.setPower(rightBackPower);
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.update();
+        // Speed control with dpad. Like a knob where the top is highest.
+        if (gamepad1.dpad_up) {
+            driveSpeed = 1;
+            turnSpeed = 1;
+        } else if (gamepad1.dpad_right) {
+            driveSpeed = 0.1;
+            turnSpeed = 0.1;
+        } else if (gamepad1.dpad_down) {
+            driveSpeed = 0.4;
+            turnSpeed = 0.3;
+        } else if (gamepad1.dpad_left) {
+            driveSpeed = 0.7;
+            turnSpeed = 0.6;
         }
+
+        // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+        double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+        double lateral = gamepad1.left_stick_x;
+        double yaw = gamepad1.right_stick_x;
+
+        // Combine the joystick requests for each axis-motion to determine each wheel's power.
+        // Set up a variable for each drive wheel to save the power level for telemetry.
+        double leftFrontPower = driveSpeed * (axial + lateral) + turnSpeed * yaw;
+        double rightFrontPower = driveSpeed * (axial - lateral) - turnSpeed * yaw;
+        double leftBackPower = driveSpeed * (axial - lateral) + turnSpeed * yaw;
+        double rightBackPower = driveSpeed * (axial + lateral) - turnSpeed * yaw;
+
+        // Normalize the values so no wheel power exceeds 100%
+        // This ensures that the robot maintains the desired motion.
+        max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
+
+        if (max > 1) {
+            leftFrontPower /= max;
+            rightFrontPower /= max;
+            leftBackPower /= max;
+            rightBackPower /= max;
+        }
+
+        // Uncomment the following code to test your motor directions.
+        // Each button should make the corresponding motor run FORWARD.
+        //   1) First get all the motors to take to correct positions on the robot
+        //      by adjusting your Robot Configuration if necessary.
+        //   2) Then make sure they run in the correct direction by modifying the
+        //      the setDirection() calls above.
+        // Once the correct motors move in the correct direction re-comment this code.
+
+        /*
+        leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
+        leftBackPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
+        rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
+        rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
+        */
+
+        // Send calculated power to wheels
+
+        leftFrontDrive.setPower(leftFrontPower);
+        rightFrontDrive.setPower(rightFrontPower);
+        leftBackDrive.setPower(leftBackPower);
+        rightBackDrive.setPower(rightBackPower);
+        // Show the elapsed game time and wheel power.
+        telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
+        telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+        telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+        telemetry.update();
     }
 }
 
