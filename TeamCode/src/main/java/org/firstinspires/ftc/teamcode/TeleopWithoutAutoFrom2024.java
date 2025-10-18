@@ -86,7 +86,10 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
+        runtime.reset();
         telemetry.addData("Status", "Initialized");
+        telemetry.addData("Status (Version: " + VERSION + ") Initialized", "Run Time: " + runtime);
+
         telemetry.update();
     }
 
@@ -98,7 +101,6 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         // winch.setDirection(DcMotor.Direction.FORWARD);
         // Wait for the game to start (driver presses PLAY)
 
-        runtime.reset();
 
         double max;
 

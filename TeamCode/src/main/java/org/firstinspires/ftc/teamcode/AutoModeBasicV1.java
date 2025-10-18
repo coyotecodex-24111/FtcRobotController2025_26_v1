@@ -1,0 +1,78 @@
+package org.firstinspires.ftc.teamcode;
+
+// Declare imports
+import static org.firstinspires.ftc.teamcode.Direction.LEFT;
+import static org.firstinspires.ftc.teamcode.Direction.RIGHT;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+// import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+// Linear Opmode is for sequential code like in Autonomous operation
+// (doing things in a linear fashion, one after the other.
+
+@Autonomous(name="AutoModeBasicV1", group="Auto Basic")
+// Code taken from 2024 robot and cleaned up as starting point for 2025.
+public class AutoModeBasicV1 extends LinearOpMode {
+    private Robot robot;
+    public final double VERSION = 1;
+    final ElapsedTime runtime = new ElapsedTime();
+
+    double spinSpeed = 0.7;
+
+    @Override
+    public void runOpMode() {
+        robot = new Robot(hardwareMap, telemetry);
+        robot.init();
+
+        waitForStart();
+
+        if (opModeIsActive()) {
+            spin(LEFT, 1000);
+            sleep(1000);
+            spin(RIGHT, 500);
+        }
+    }
+
+    private void spin(Direction direction, long milliSeconds) {
+        int speedPolarity = direction == LEFT ? -1 : 1;
+        double max;
+
+        double leftFrontPower = spinSpeed * speedPolarity;
+        double rightFrontPower = spinSpeed * speedPolarity;
+        double leftBackPower = spinSpeed * speedPolarity;
+        double rightBackPower = spinSpeed * speedPolarity;
+
+        // Normalize the values so no wheel power exceeds 100%
+        // This ensures that the robot maintains the desired motion.
+        max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
+
+        if (max > 1) {
+            leftFrontPower /= max;
+            rightFrontPower /= max;
+            leftBackPower /= max;
+            rightBackPower /= max;
+        }
+        
+        // Show the elapsed game time and wheel power.
+        telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
+        telemetry.addData("About to spin: " + direction + " for " + milliSeconds + "ms", "Run Time: " + runtime);
+        telemetry.addData("About to spin: Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+        telemetry.addData("About to spin: Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+        telemetry.update();
+
+        robot.leftFrontDrive.setPower(leftFrontPower);
+        robot.rightFrontDrive.setPower(rightFrontPower);
+        robot.leftBackDrive.setPower(leftBackPower);
+        robot.rightBackDrive.setPower(rightBackPower);
+
+        sleep(milliSeconds);
+
+        robot.stopAllDriveMotors();
+    }
+}
