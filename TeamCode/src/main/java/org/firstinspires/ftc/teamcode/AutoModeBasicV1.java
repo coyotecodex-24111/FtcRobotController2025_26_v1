@@ -19,7 +19,7 @@ public class AutoModeBasicV1 extends LinearOpMode {
     public final double VERSION = 1;
     final ElapsedTime runtime = new ElapsedTime();
 
-    double spinSpeed = 0.7;
+    double spinSpeed = 0.2;
 
     @Override
     public void runOpMode() {
@@ -29,20 +29,22 @@ public class AutoModeBasicV1 extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            spin(LEFT, 1000);
+            spin(LEFT, 10000);
             sleep(1000);
-            spin(RIGHT, 500);
+            spin(RIGHT, 5000);
         }
     }
 
     private void spin(Direction direction, long milliSeconds) {
-        int speedPolarity = direction == LEFT ? -1 : 1;
+        int speedPolarityLeft = direction == LEFT ? -1 : 1;
+        int speedPolarityRight = direction == LEFT ? 1 : -1;
+
         double max;
 
-        double leftFrontPower = spinSpeed * speedPolarity;
-        double rightFrontPower = spinSpeed * speedPolarity;
-        double leftBackPower = spinSpeed * speedPolarity;
-        double rightBackPower = spinSpeed * speedPolarity;
+        double leftFrontPower  = spinSpeed * speedPolarityLeft;
+        double rightFrontPower = spinSpeed * speedPolarityRight;
+        double leftBackPower   = spinSpeed * speedPolarityLeft;
+        double rightBackPower  = spinSpeed * speedPolarityRight;
 
         // Normalize the values so no wheel power exceeds 100%
         // This ensures that the robot maintains the desired motion.
