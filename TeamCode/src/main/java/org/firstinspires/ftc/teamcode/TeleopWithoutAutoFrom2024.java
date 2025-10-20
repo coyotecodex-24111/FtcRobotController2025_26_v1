@@ -63,7 +63,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         robot.init();
 
         runtime.reset();
-        telemetry.addData("Status", "Initialized for TeleOp");
+        telemetry.addData("Status:", "Initialized for TeleOp");
         telemetry.addData("Status (Version: " + VERSION + ") Initialized", "Run Time: " + runtime);
 
         telemetry.update();
@@ -100,6 +100,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
             turnSpeed = 0.6;
         }
 
+        robot.odo.update();
         // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
         double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
         double lateral = gamepad1.left_stick_x;
@@ -150,6 +151,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
         telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
         telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+        robot.odometryTelemetry(runtime.toString());
         telemetry.update();
     }
 }
