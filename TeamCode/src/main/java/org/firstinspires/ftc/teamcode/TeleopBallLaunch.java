@@ -39,7 +39,7 @@ public class TeleopBallLaunch extends OpMode {
     final double servoFeedSpeed = 0.1;
     double driveSpeed = 0.7;
     double turnSpeed = 0.6;
-    private Object timer = new Timer();
+    private final Object timer = new Timer();
 
     @Override
     public void init() {
@@ -109,6 +109,12 @@ public class TeleopBallLaunch extends OpMode {
             adjustFlyheelSpeed(true);
         } else if (gamepad1.dpad_down) {
             adjustFlyheelSpeed(false);
+        }
+        if (gamepad1.a) {
+            robot.flywheel.setPower(0);
+        }
+        if (gamepad1.y) {
+            robot.flywheel.setPower(minLaunchSpeed);
         }
 
         if (gamepad1.b) {
