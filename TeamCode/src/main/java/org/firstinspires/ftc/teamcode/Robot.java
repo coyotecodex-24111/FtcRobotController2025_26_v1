@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -14,6 +15,10 @@ public class Robot {
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
+    public DcMotor flywheel = null;
+
+    public CRServo leftFeed = null;
+    public CRServo rightFeed = null;
     private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
 
@@ -23,14 +28,22 @@ public class Robot {
     }
 
     public void init() {
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        if (false) {
+            leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
+            leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
+            rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
+            rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+            leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+            leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+            rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+            rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        }
+
+        flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+        flywheel.setDirection(DcMotor.Direction.FORWARD);
+
+        leftFeed = hardwareMap.get(CRServo.class, "left_feed");
+        rightFeed = hardwareMap.get(CRServo.class, "right_feed");
 
         telemetry.addLine("Status: Initialized");
         telemetry.update();
