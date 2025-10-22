@@ -30,13 +30,13 @@ public class TeleopBallLaunch extends OpMode {
     private double timeOfLastFlywheelUpdate = runtime.time();
     final double minTimeBetweenFlywheelUpdates = 0.2;
 
-    final double maxLaunchSpeed = 0.8;
-    final double minLaunchSpeed = 0.2;
+    final double maxLaunchSpeed = 1;
+    final double minLaunchSpeed = 0.4;
 
     double launchPower = minLaunchSpeed;
     final double getLaunchSpeedIncrement = 0.01;
 
-    final double servoFeedSpeed = 0.1;
+    final double servoFeedSpeed = 0.5;
     double driveSpeed = 0.7;
     double turnSpeed = 0.6;
     private final Object timer = new Timer();
@@ -71,15 +71,16 @@ public class TeleopBallLaunch extends OpMode {
     }
 
     private void launchBall() {
-        robot.leftFeed.setPower(servoFeedSpeed);
+        robot.leftFeed.setPower(-servoFeedSpeed);
         robot.rightFeed.setPower(servoFeedSpeed);
         try {
             sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        robot.leftFeed.setPower(0);
-        robot.rightFeed.setPower(0);
+       // robot.leftFeed.setPower(0);
+        // robot.rightFeed.setPower(0);
+       // telemetry.addData()
     }
 
     private void adjustFlyheelSpeed(boolean increaseSpeed) {
