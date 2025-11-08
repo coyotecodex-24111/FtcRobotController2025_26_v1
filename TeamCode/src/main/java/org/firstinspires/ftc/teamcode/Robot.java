@@ -23,6 +23,7 @@ public class Robot {
     private final Telemetry telemetry;
 
 
+
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
@@ -37,6 +38,12 @@ public class Robot {
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+
+        flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+        flywheel.setDirection(DcMotor.Direction.FORWARD);
+
+        leftFeed = hardwareMap.get(CRServo.class, "left_feed");
+        rightFeed = hardwareMap.get(CRServo.class, "right_feed");
 
         telemetry.addLine("Status: Initialized");
         telemetry.update();
