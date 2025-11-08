@@ -54,8 +54,8 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
     final ElapsedTime runtime = new ElapsedTime();
     // Declare OpMode members for each of the 4 motors.
 
-    double driveSpeed = 0.7;
-    double turnSpeed = 0.6;
+    double driveSpeed = 0.1;
+    double turnSpeed = 0.1;
 
     @Override
     public void init() {
