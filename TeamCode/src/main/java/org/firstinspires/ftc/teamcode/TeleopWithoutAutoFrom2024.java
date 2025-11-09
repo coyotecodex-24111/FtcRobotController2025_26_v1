@@ -31,11 +31,15 @@ package org.firstinspires.ftc.teamcode;
 
 // Declare imports
 
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 // import com.qualcomm.robotcore.hardware.CRServo;
 // import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.util.Timer;
 
 // import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -56,6 +60,16 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     double driveSpeed = 0.1;
     double turnSpeed = 0.1;
+    private double timeOfLastFlywheelUpdate = runtime.time();
+    final double minTimeBetweenFlywheelUpdates = 0.2;
+
+    final double maxLaunchSpeed = 0.75;
+    final double minLaunchSpeed = 0.7;
+
+    double launchPower = minLaunchSpeed;
+    final double getLaunchSpeedIncrement = 0.01;
+
+    final double servoFeedSpeed = 0.5;
 
     @Override
     public void init() {
@@ -78,6 +92,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     @Override
     public void start() {
+        robot.flywheel.setPower(launchPower);
         telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
         telemetry.addData("Status", "Started for TeleOp (START)");
         telemetry.update();
@@ -85,6 +100,21 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     @Override
     public void loop() {
+        if (gamepad1.dpad_up) {
+            adjustFlyheelSpeed(true);
+        } else if (gamepad1.dpad_down) {
+            adjustFlyheelSpeed(false);
+        }
+        if (gamepad1.a) {
+            robot.flywheel.setPower(0);
+        }
+        if (gamepad1.y) {
+            robot.flywheel.setPower(minLaunchSpeed);
+        }
+
+        if (gamepad1.b) {
+            launchBall();
+        }
         // Speed control with dpad. Like a knob where the top is highest.
         if (gamepad1.dpad_up) {
             driveSpeed = 1;
@@ -150,10 +180,46 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
         telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
         telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+        telemetry.addData("Launch speed:", "%4.2f", launchPower);
         telemetry.update();
     }
+
+    private void launchBall() {
+        robot.leftFeed.setPower(-servoFeedSpeed);
+        robot.rightFeed.setPower(servoFeedSpeed);
+        try {
+            sleep(50);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        robot.leftFeed.setPower(0);
+        robot.rightFeed.setPower(0);
+        try {
+            sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        //telemetry.addData();
+    }
+
+    private void adjustFlyheelSpeed(boolean increaseSpeed) {
+        double currentTime = runtime.time();
+
+        if (currentTime - timeOfLastFlywheelUpdate >= minTimeBetweenFlywheelUpdates) {
+            timeOfLastFlywheelUpdate = currentTime;
+            if (increaseSpeed) {
+                launchPower += getLaunchSpeedIncrement;
+            } else {
+                launchPower -= getLaunchSpeedIncrement;
+            }
+            if (launchPower < minLaunchSpeed) {
+                launchPower = minLaunchSpeed;
+            }
+            if (launchPower > maxLaunchSpeed) {
+                launchPower = maxLaunchSpeed;
+            }
+            telemetry.addData("Launch speed changed at time" + currentTime, "to %4.2f", launchPower);
+            robot.flywheel.setPower(launchPower);
+        }
+    }
 }
-
-
-
-
