@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 // Declare imports
-
 import static java.lang.Thread.sleep;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
