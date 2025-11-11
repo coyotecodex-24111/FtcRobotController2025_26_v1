@@ -58,13 +58,15 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
     final ElapsedTime runtime = new ElapsedTime();
     // Declare OpMode members for each of the 4 motors.
 
-    double driveSpeed = 0.1;
-    double turnSpeed = 0.1;
+    double driveSpeed = 0.7;
+    double turnSpeed = 0.6;
     private double timeOfLastFlywheelUpdate = runtime.time();
     final double minTimeBetweenFlywheelUpdates = 0.2;
 
-    final double maxLaunchSpeed = 0.75;
+    final double maxLaunchSpeed = 1;
     final double minLaunchSpeed = 0.7;
+
+    final double defaultLaunchSpeed = 0.8;
 
     double launchPower = minLaunchSpeed;
     final double getLaunchSpeedIncrement = 0.01;
@@ -100,19 +102,21 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad1.dpad_up) {
+        if (gamepad2.dpad_up) {
             adjustFlyheelSpeed(true);
-        } else if (gamepad1.dpad_down) {
+        } else if (gamepad2.dpad_down) {
             adjustFlyheelSpeed(false);
         }
-        if (gamepad1.a) {
+        if (gamepad2.b) {
             robot.flywheel.setPower(0);
         }
-        if (gamepad1.y) {
+        if (gamepad2.y) {
             robot.flywheel.setPower(minLaunchSpeed);
         }
-
-        if (gamepad1.b) {
+        if (gamepad2.x) {
+            robot.flywheel.setPower(defaultLaunchSpeed);
+        }
+        if (gamepad2.a) {
             launchBall();
         }
         // Speed control with dpad. Like a knob where the top is highest.
