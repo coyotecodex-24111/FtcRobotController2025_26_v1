@@ -55,4 +55,11 @@ public class Robot {
         leftBackDrive.setPower(0);
         rightBackDrive.setPower(0);
     }
+    public void driveUsingEncoder(){
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
 }
