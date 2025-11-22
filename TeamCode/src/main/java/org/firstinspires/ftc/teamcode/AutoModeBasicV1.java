@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 // Declare imports
-import static org.firstinspires.ftc.teamcode.Direction.LEFT;
-import static org.firstinspires.ftc.teamcode.Direction.RIGHT;
+//import static org.firstinspires.ftc.teamcode.Direction.LEFT;
+//import static org.firstinspires.ftc.teamcode.Direction.RIGHT;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

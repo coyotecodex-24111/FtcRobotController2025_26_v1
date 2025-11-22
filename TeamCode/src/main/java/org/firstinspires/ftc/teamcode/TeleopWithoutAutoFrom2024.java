@@ -76,6 +76,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
         robot.init();
+        robot.driveWithoutEncoder();
 
         runtime.reset();
         telemetry.addData("Status", "Initialized for TeleOp");
