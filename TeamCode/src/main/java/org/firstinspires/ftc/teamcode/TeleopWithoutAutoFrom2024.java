@@ -108,13 +108,13 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
             adjustFlyheelSpeed(false);
         }
         if (gamepad2.b) {
-            robot.flywheel.setPower(0);
+            robot.setFlywheelPower(0);
         }
         if (gamepad2.y) {
-            robot.flywheel.setPower(minLaunchSpeed);
+            robot.setFlywheelPower(minLaunchSpeed);
         }
         if (gamepad2.x) {
-            robot.flywheel.setPower(defaultLaunchSpeed);
+            robot.setFlywheelPower(launchPower);
         }
         if (gamepad2.a) {
             launchBall();
@@ -222,8 +222,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
             if (launchPower > maxLaunchSpeed) {
                 launchPower = maxLaunchSpeed;
             }
-            telemetry.addData("Launch speed changed at time" + currentTime, "to %4.2f", launchPower);
-            robot.flywheel.setPower(launchPower);
+            robot.setFlywheelPower(launchPower);
         }
     }
 }

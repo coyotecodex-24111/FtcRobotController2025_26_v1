@@ -67,5 +67,9 @@ public class Robot {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+    public void setFlywheelPower(double launchPower){
+        telemetry.addData("Launch speed changed", "to %4.2f", launchPower);
+        flywheel.setPower(launchPower);
+    }
 
 }
