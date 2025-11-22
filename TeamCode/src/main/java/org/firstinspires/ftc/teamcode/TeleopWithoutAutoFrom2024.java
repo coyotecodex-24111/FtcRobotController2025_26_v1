@@ -63,9 +63,9 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
     final double minTimeBetweenFlywheelUpdates = 0.2;
 
     final double maxLaunchSpeed = 1;
-    final double minLaunchSpeed = 0.7;
+    final double minLaunchSpeed = 0.5;
 
-    final double defaultLaunchSpeed = 0.8;
+    final double defaultLaunchSpeed = 0.68;
 
     double launchPower = minLaunchSpeed;
     final double getLaunchSpeedIncrement = 0.01;
@@ -192,7 +192,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         robot.leftFeed.setPower(-servoFeedSpeed);
         robot.rightFeed.setPower(servoFeedSpeed);
         try {
-            sleep(50);
+            sleep(250);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
