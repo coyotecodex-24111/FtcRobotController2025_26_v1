@@ -33,20 +33,21 @@ public class AutoModeBasicV1 extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            moveRobot(4,0,0,0.5,2000);
+            moveRobot(0.05,0,0,0.05,2000);
         }
     }
 
 
-        public void moveRobot(int forward, int strafe, int rotate, double speed, int sleep) {
-            final double FORWARD_RATIO = (100 / 59.0);
+        public void moveRobot(double forward, int strafe, int rotate, double speed, int sleep) {
+            final double FORWARD_RATIO = (10 / 59.0);
             final double SIDE_RATIO = (100 / 50.875);
             final double COUNTS_PER_INCH = (312) / (3.78 * 3.1415);
+            final double leftFrontTarget = robot.leftFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO - strafe * SIDE_RATIO - rotate) * COUNTS_PER_INCH;
 
-            robot.leftFrontDrive.setTargetPosition((int) (robot.leftFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO - strafe * SIDE_RATIO - rotate) * COUNTS_PER_INCH));
+            robot.leftFrontDrive.setTargetPosition((int) leftFrontTarget);
             robot.rightFrontDrive.setTargetPosition((int) (robot.rightFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO + strafe * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
             robot.leftBackDrive.setTargetPosition((int) (robot.leftBackDrive.getCurrentPosition() + (forward * FORWARD_RATIO + strafe * SIDE_RATIO - rotate) * COUNTS_PER_INCH));
-            robot.rightBackDrive.setTargetPosition((int) (robot.rightBackDrive.getCurrentPosition() + (forward *FORWARD_RATIO - strafe * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
+            robot.rightBackDrive.setTargetPosition((int) -(robot.rightBackDrive.getCurrentPosition() + (forward *FORWARD_RATIO - strafe * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
 
             robot.leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -55,8 +56,8 @@ public class AutoModeBasicV1 extends LinearOpMode {
 
             robot.leftFrontDrive.setPower(speed);
             robot.rightFrontDrive.setPower(speed);
-            robot.rightBackDrive.setPower(speed);
-            robot.leftBackDrive.setPower(speed);
+            //robot.rightBackDrive.setPower(speed);
+            //robot.leftBackDrive.setPower(speed);
 
             sleep(sleep);
         }
