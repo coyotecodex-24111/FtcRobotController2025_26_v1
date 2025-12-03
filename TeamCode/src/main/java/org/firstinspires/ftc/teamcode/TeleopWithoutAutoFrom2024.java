@@ -102,6 +102,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     @Override
     public void loop() {
+        robot.calculateFlywheelSpeed();
         if (gamepad2.dpad_up) {
             adjustFlyheelSpeed(true);
         } else if (gamepad2.dpad_down) {
@@ -224,5 +225,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
             }
             robot.setFlywheelPower(launchPower);
         }
+
     }
+
 }

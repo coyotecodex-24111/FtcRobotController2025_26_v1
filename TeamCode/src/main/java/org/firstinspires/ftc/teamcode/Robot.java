@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -15,7 +16,7 @@ public class Robot {
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
-    public DcMotor flywheel = null;
+    public DcMotorEx flywheel = null;
 
     public CRServo leftFeed = null;
     public CRServo rightFeed = null;
@@ -39,7 +40,7 @@ public class Robot {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+        flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
         flywheel.setDirection(DcMotor.Direction.FORWARD);
 
         leftFeed = hardwareMap.get(CRServo.class, "left_feed");
@@ -70,6 +71,17 @@ public class Robot {
     public void setFlywheelPower(double launchPower){
         telemetry.addData("Launch speed changed", "to %4.2f", launchPower);
         flywheel.setPower(launchPower);
+    }
+    private double calculateRPM(DcMotorEx motor, double TICKS_PER_REV) {
+        double ticksPerSecond = motor.getVelocity(); // Get velocity from the motor controller
+        double rotationsPerSecond = ticksPerSecond / TICKS_PER_REV;
+        double rpm = rotationsPerSecond * 60.0; // Convert to rotations per minute
+        return rpm;
+    }
+    public void calculateFlywheelSpeed() {
+        double currentRPM = calculateRPM(flywheel, 28);
+        telemetry.addData("Motor RPM", "%.2f", currentRPM);
+        telemetry.update();
     }
 
 }
