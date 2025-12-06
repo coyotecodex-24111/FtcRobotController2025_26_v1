@@ -22,6 +22,13 @@ public class Robot {
     private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
 
+    final double DRIVE_WHEEL_DIAMETER = 104/25.4;
+    final double DRIVE_WHEEL_CIRCUMFERENCE = DRIVE_WHEEL_DIAMETER * Math.PI;
+    //TPR is the rev. of the wheel motors
+    final double TICKS_PER_REVOLUTION = 537.7;
+
+
+
 
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
@@ -70,6 +77,26 @@ public class Robot {
     public void setFlywheelPower(double launchPower){
         telemetry.addData("Launch speed changed", "to %4.2f", launchPower);
         flywheel.setPower(launchPower);
+    }
+    public void autoPosition(double desiredDistance){
+        double TargetTicks;
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        TargetTicks = (desiredDistance / DRIVE_WHEEL_CIRCUMFERENCE) * TICKS_PER_REVOLUTION;
+
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftFrontDrive.setPower(0.5);
+        leftBackDrive.setPower(0.5);
+        rightFrontDrive.setPower(0.5);
+        rightBackDrive.setPower(0.5);
+
+        //leftFrontDrive.setTargetPosition((int) (leftFrontDrive.getCurrentPosition() ))
     }
 
 }
