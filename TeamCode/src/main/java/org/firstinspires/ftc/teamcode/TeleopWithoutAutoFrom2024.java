@@ -190,7 +190,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     private void launchBall() {
         robot.leftFeed.setPower(-servoFeedSpeed);
-        robot.rightFeed.setPower(servoFeedSpeed);
+        robot.rightFeed.setPower(-servoFeedSpeed);
         try {
             sleep(250);
         } catch (InterruptedException e) {
