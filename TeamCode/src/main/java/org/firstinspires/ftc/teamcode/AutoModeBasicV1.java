@@ -56,8 +56,15 @@ public class AutoModeBasicV1 extends LinearOpMode {
 
             robot.leftFrontDrive.setPower(speed);
             robot.rightFrontDrive.setPower(speed);
-            //robot.rightBackDrive.setPower(speed);
-            //robot.leftBackDrive.setPower(speed);
+            robot.rightBackDrive.setPower(speed);
+            robot.leftBackDrive.setPower(speed);
+
+            telemetry.addData("forward: %4.2f ", forward  );
+            telemetry.addData("strafe: %4.2f " , strafe );
+            telemetry.addData( "rotate: %4.2f " , rotate );
+            telemetry.addData( " speed: %4.2f " , speed );
+            telemetry.addData( " sleep: %4.2f" , sleep );
+            telemetry.update();
 
             sleep(sleep);
         }
