@@ -33,7 +33,7 @@ public class AutoModeBasicV1 extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            moveRobot(0.05,0,0,0.05,2000);
+            moveRobot(200,0,0,0.5,4000);
         }
     }
 
@@ -46,8 +46,8 @@ public class AutoModeBasicV1 extends LinearOpMode {
 
             robot.leftFrontDrive.setTargetPosition((int) leftFrontTarget);
             robot.rightFrontDrive.setTargetPosition((int) (robot.rightFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO + strafe * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
-            robot.leftBackDrive.setTargetPosition((int) (robot.leftBackDrive.getCurrentPosition() + (forward * FORWARD_RATIO + strafe * SIDE_RATIO - rotate) * COUNTS_PER_INCH));
-            robot.rightBackDrive.setTargetPosition((int) -(robot.rightBackDrive.getCurrentPosition() + (forward *FORWARD_RATIO - strafe * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
+            robot.leftBackDrive.setTargetPosition((int)   (robot.leftBackDrive.getCurrentPosition()   + (forward * FORWARD_RATIO + strafe * SIDE_RATIO - rotate) * COUNTS_PER_INCH));
+            robot.rightBackDrive.setTargetPosition((int)  (robot.rightBackDrive.getCurrentPosition()  + (forward * FORWARD_RATIO - strafe * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
 
             robot.leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
