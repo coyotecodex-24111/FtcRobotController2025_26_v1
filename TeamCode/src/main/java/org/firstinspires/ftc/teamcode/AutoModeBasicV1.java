@@ -23,6 +23,8 @@ public class AutoModeBasicV1 extends LinearOpMode {
 
     double spinSpeed = 0.2;
 
+    final double autoLaunchPower = 0.68;
+
     @Override
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry);
@@ -33,7 +35,20 @@ public class AutoModeBasicV1 extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            moveRobot(200,0,0,0.5,4000);
+            //Ball will be going backwards from the goal
+            robot.setFlywheelPower(autoLaunchPower);
+            moveRobot(-100,0,0,0.5,4000);
+            //Robot will launch balls x3
+            robot.launchBall();
+            sleep(4000);
+            robot.launchBall();
+            sleep(4000);
+            robot.launchBall();
+            sleep(4000);
+            //Robot will be moving to the left
+            //Note: positive value = strafe to the left and negative value will strafe to the right
+            moveRobot(0, -10, 0, 0.5, 4000);
+
         }
     }
 

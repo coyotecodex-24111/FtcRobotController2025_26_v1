@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -26,6 +28,9 @@ public class Robot {
     final double DRIVE_WHEEL_CIRCUMFERENCE = DRIVE_WHEEL_DIAMETER * Math.PI;
     //TPR is the rev. of the wheel motors
     final double TICKS_PER_REVOLUTION = 537.7;
+
+    final double servoFeedSpeed = 0.5;
+
 
 
 
@@ -97,6 +102,23 @@ public class Robot {
         rightBackDrive.setPower(0.5);
 
         //leftFrontDrive.setTargetPosition((int) (leftFrontDrive.getCurrentPosition() ))
+    }
+    public void launchBall() {
+        leftFeed.setPower(-servoFeedSpeed);
+        rightFeed.setPower(-servoFeedSpeed);
+        try {
+            sleep(250);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        leftFeed.setPower(0);
+        rightFeed.setPower(0);
+        try {
+            sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        //telemetry.addData();
     }
 
 }

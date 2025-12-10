@@ -70,8 +70,6 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
     double launchPower = defaultLaunchSpeed;
     final double getLaunchSpeedIncrement = 0.01;
 
-    final double servoFeedSpeed = 0.5;
-
     @Override
     public void init() {
         robot = new Robot(hardwareMap, telemetry);
@@ -117,7 +115,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
             robot.setFlywheelPower(launchPower);
         }
         if (gamepad2.a) {
-            launchBall();
+            robot.launchBall();
         }
         // Speed control with dpad. Like a knob where the top is highest.
         if (gamepad1.dpad_up) {
@@ -188,23 +186,6 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         telemetry.update();
     }
 
-    private void launchBall() {
-        robot.leftFeed.setPower(-servoFeedSpeed);
-        robot.rightFeed.setPower(-servoFeedSpeed);
-        try {
-            sleep(250);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        robot.leftFeed.setPower(0);
-        robot.rightFeed.setPower(0);
-        try {
-            sleep(500);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        //telemetry.addData();
-    }
 
     private void adjustFlyheelSpeed(boolean increaseSpeed) {
         double currentTime = runtime.time();
