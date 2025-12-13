@@ -107,7 +107,7 @@ public class Robot {
         leftFeed.setPower(-servoFeedSpeed);
         rightFeed.setPower(-servoFeedSpeed);
         try {
-            sleep(250);
+            sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
