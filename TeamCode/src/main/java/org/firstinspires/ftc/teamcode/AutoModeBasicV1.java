@@ -36,8 +36,8 @@ public class AutoModeBasicV1 extends LinearOpMode {
 
         if (opModeIsActive()) {
             //Ball will be going backwards from the goal
-            robot.setFlywheelPower(autoLaunchPower);
-            moveRobot(-100,0,0,0.5,4000);
+            //robot.setFlywheelPower(autoLaunchPower);
+            //moveRobot(-100,0,0,0.5,4000);
             //Robot will launch balls x3
             robot.launchBall();
             sleep(4000);
@@ -47,7 +47,7 @@ public class AutoModeBasicV1 extends LinearOpMode {
             sleep(4000);
             //Robot will be moving to the left
             //Note: positive value = strafe to the left and negative value will strafe to the right
-            moveRobot(0, -10, 0, 0.5, 4000);
+            //moveRobot(0, -10, 0, 0.5, 4000);
 
         }
     }
