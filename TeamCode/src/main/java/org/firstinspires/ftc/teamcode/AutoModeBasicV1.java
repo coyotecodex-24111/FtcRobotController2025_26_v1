@@ -26,7 +26,7 @@ public class AutoModeBasicV1 extends LinearOpMode {
     //change this factor to 1 for HAMMY
     double TINA_FACTOR_FORWARD = 16/15;
 
-    final double autoLaunchPower = 0.68;
+    final double autoLaunchPower = 0.1;
 
     @Override
     public void runOpMode() {
@@ -39,18 +39,18 @@ public class AutoModeBasicV1 extends LinearOpMode {
 
         if (opModeIsActive()) {
             //Ball will be going backwards from the goal
-            //robot.setFlywheelPower(autoLaunchPower);
-            moveRobot(0,-12.5,0,0.5,4000);
+            robot.setFlywheelPower(autoLaunchPower);
+            moveRobot(-15,0,0,0.5,4000);
             //Robot will launch balls x3
-            //robot.launchBall();
-            //sleep(4000);
-            //robot.launchBall();
-            //sleep(4000);
-            //robot.launchBall();
-            //sleep(4000);
+            robot.launchBall();
+            sleep(4000);
+            robot.launchBall();
+            sleep(4000);
+            robot.launchBall();
+            sleep(4000);
             //Robot will be moving to the left
             //Note: positive value = strafe to the left and negative value will strafe to the right
-            //moveRobot(0, -10, 0, 0.5, 4000);
+            moveRobot(0, 15, 0, 0.5, 4000);
 
         }
     }
