@@ -40,7 +40,7 @@ public class AutoModeBasicV1 extends LinearOpMode {
         if (opModeIsActive()) {
             //Ball will be going backwards from the goal
             //robot.setFlywheelPower(autoLaunchPower);
-            moveRobot(24,0,0,0.5,4000);
+            moveRobot(0,-12.5,0,0.5,4000);
             //Robot will launch balls x3
             //robot.launchBall();
             //sleep(4000);
@@ -56,17 +56,18 @@ public class AutoModeBasicV1 extends LinearOpMode {
     }
 
 
-        public void moveRobot(double forward, int strafe, int rotate, double speed, int sleep) {
-            //From 10/59 to 100/59, our factor was off by 10 so 10/59 * 10 = 100/59
+        public void moveRobot(double forward, double strafeLeft, int rotate, double speed, int sleep) {
+            //From 10/59 to 100/59, our factor was off by 10 so 10/59 times 10 = 100/59
             final double FORWARD_RATIO = (100 / 59.0);
-            final double SIDE_RATIO = (100 / 50.875);
+            //From 100/50.875 to 120/50.875, our factor is off by 1.2 so 100/50.875 times 1.2 = 120/50.875
+            final double SIDE_RATIO = (100 / 50.875) * (1.1);
             final double COUNTS_PER_INCH = (312) / (3.78 * 3.1415);
-            final double leftFrontTarget = robot.leftFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO - strafe * SIDE_RATIO - rotate) * COUNTS_PER_INCH;
+            final double leftFrontTarget = robot.leftFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO - strafeLeft * SIDE_RATIO - rotate) * COUNTS_PER_INCH;
 
             robot.leftFrontDrive.setTargetPosition((int) leftFrontTarget);
-            robot.rightFrontDrive.setTargetPosition((int) (robot.rightFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO + strafe * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
-            robot.leftBackDrive.setTargetPosition((int)   (robot.leftBackDrive.getCurrentPosition()   + (forward * FORWARD_RATIO + strafe * SIDE_RATIO - rotate) * COUNTS_PER_INCH));
-            robot.rightBackDrive.setTargetPosition((int)  (robot.rightBackDrive.getCurrentPosition()  + (forward * FORWARD_RATIO - strafe * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
+            robot.rightFrontDrive.setTargetPosition((int) (robot.rightFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO + strafeLeft * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
+            robot.leftBackDrive.setTargetPosition((int)   (robot.leftBackDrive.getCurrentPosition()   + (forward * FORWARD_RATIO + strafeLeft * SIDE_RATIO - rotate) * COUNTS_PER_INCH));
+            robot.rightBackDrive.setTargetPosition((int)  (robot.rightBackDrive.getCurrentPosition()  + (forward * FORWARD_RATIO - strafeLeft * SIDE_RATIO + rotate) * COUNTS_PER_INCH));
 
             robot.leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -79,7 +80,7 @@ public class AutoModeBasicV1 extends LinearOpMode {
             robot.leftBackDrive.setPower(speed);
 
             telemetry.addData("forward: %4.2f ", forward  );
-            telemetry.addData("strafe: %4.2f " , strafe );
+            telemetry.addData("strafe: %4.2f " , strafeLeft );
             telemetry.addData( "rotate: %4.2f " , rotate );
             telemetry.addData( " speed: %4.2f " , speed );
             telemetry.addData( " sleep: %4.2f" , sleep );
