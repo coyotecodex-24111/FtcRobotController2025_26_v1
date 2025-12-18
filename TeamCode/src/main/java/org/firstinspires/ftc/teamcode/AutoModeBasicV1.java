@@ -22,6 +22,9 @@ public class AutoModeBasicV1 extends LinearOpMode {
     final ElapsedTime runtime = new ElapsedTime();
 
     double spinSpeed = 0.2;
+    //for every 16 inches we tell TINA to go, TINA goes 15
+    //change this factor to 1 for HAMMY
+    double TINA_FACTOR_FORWARD = 16/15;
 
     final double autoLaunchPower = 0.68;
 
@@ -37,14 +40,14 @@ public class AutoModeBasicV1 extends LinearOpMode {
         if (opModeIsActive()) {
             //Ball will be going backwards from the goal
             //robot.setFlywheelPower(autoLaunchPower);
-            //moveRobot(-100,0,0,0.5,4000);
+            moveRobot(24,0,0,0.5,4000);
             //Robot will launch balls x3
-            robot.launchBall();
-            sleep(4000);
-            robot.launchBall();
-            sleep(4000);
-            robot.launchBall();
-            sleep(4000);
+            //robot.launchBall();
+            //sleep(4000);
+            //robot.launchBall();
+            //sleep(4000);
+            //robot.launchBall();
+            //sleep(4000);
             //Robot will be moving to the left
             //Note: positive value = strafe to the left and negative value will strafe to the right
             //moveRobot(0, -10, 0, 0.5, 4000);
@@ -54,7 +57,8 @@ public class AutoModeBasicV1 extends LinearOpMode {
 
 
         public void moveRobot(double forward, int strafe, int rotate, double speed, int sleep) {
-            final double FORWARD_RATIO = (10 / 59.0);
+            //From 10/59 to 100/59, our factor was off by 10 so 10/59 * 10 = 100/59
+            final double FORWARD_RATIO = (100 / 59.0);
             final double SIDE_RATIO = (100 / 50.875);
             final double COUNTS_PER_INCH = (312) / (3.78 * 3.1415);
             final double leftFrontTarget = robot.leftFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO - strafe * SIDE_RATIO - rotate) * COUNTS_PER_INCH;
