@@ -115,7 +115,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
             robot.setFlywheelPower(launchPower);
         }
         if (gamepad2.a) {
-            robot.launchBall();
+            robot.launchBall(robot.DEFAULT_FEED_DURATION);
         }
         // Speed control with dpad. Like a knob where the top is highest.
         if (gamepad1.dpad_up) {

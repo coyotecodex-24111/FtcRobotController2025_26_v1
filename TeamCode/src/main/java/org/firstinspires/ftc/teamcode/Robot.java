@@ -21,6 +21,9 @@ public class Robot {
 
     public CRServo leftFeed = null;
     public CRServo rightFeed = null;
+    public final int DEFAULT_FEED_DURATION = 250;
+    //The ball delays in the beginning so this is so it could run as similar to the rest
+    public final int FIRST_LAUNCH_DURATION = DEFAULT_FEED_DURATION + 200;
     private final HardwareMap hardwareMap;
     private final Telemetry telemetry;
 
@@ -103,11 +106,11 @@ public class Robot {
 
         //leftFrontDrive.setTargetPosition((int) (leftFrontDrive.getCurrentPosition() ))
     }
-    public void launchBall() {
+    public void launchBall(int duration) {
         leftFeed.setPower(-servoFeedSpeed);
         rightFeed.setPower(-servoFeedSpeed);
         try {
-            sleep(2000);
+            sleep(duration);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
