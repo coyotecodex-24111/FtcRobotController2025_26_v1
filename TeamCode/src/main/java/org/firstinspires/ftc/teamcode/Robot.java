@@ -34,11 +34,6 @@ public class Robot {
 
     final double servoFeedSpeed = 0.5;
 
-
-
-
-
-
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
