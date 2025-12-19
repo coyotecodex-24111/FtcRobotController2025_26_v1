@@ -49,6 +49,8 @@ public class AutoModeBasicV1 extends LinearOpMode {
             sleep(4000);
             robot.launchBall(robot.DEFAULT_FEED_DURATION);
             sleep(4000);
+            robot.launchBall(robot.DEFAULT_FEED_DURATION);
+            robot.setFlywheelPower(0);
             //Robot will be moving to the left
             //Note: positive value = strafe to the left and negative value will strafe to the right
             moveRobot(0, 15, 0, 0.5, 4000);
