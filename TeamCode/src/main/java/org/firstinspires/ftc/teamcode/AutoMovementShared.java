@@ -22,7 +22,12 @@ public class AutoMovementShared {
         this.robot = hammy;
         this.telemetry = telemetry;
     }
-  public void autoForGoal() {
+  public void autoForGoal(boolean Red) {
+      double strafeDistance = 15;
+      if(Red){
+          strafeDistance = -strafeDistance;
+      }
+
       //Ball will be going backwards from the goal
       robot.setFlywheelPower(autoLaunchPower);
       sleep(5000);
@@ -38,7 +43,7 @@ public class AutoMovementShared {
       robot.setFlywheelPower(0);
       //Robot will be moving to the left
       //Note: positive value = strafe to the left and negative value will strafe to the right
-      moveRobot(0, 15, 0, 0.5, 4000);
+      moveRobot(0, strafeDistance, 0, 0.5, 4000);
   }
 
     public void moveRobot(double forward, double strafeLeft, int rotate, double speed, int sleep) {
