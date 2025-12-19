@@ -33,7 +33,7 @@ public class AutoModeBasicRedGoalV1 extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            autoMove.autoForGoal(true);
+            autoMove.autoForGoal(true, false);
         }
     }
 }

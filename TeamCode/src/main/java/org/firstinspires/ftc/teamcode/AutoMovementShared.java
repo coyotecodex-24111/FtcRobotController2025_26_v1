@@ -22,16 +22,25 @@ public class AutoMovementShared {
         this.robot = hammy;
         this.telemetry = telemetry;
     }
-  public void autoForGoal(boolean Red) {
+  public void autoForGoal(boolean Red, boolean Wall) {
       double strafeDistance = 15;
+      int rotationDegrees = -45;
+
       if(Red){
           strafeDistance = -strafeDistance;
+          rotationDegrees = -rotationDegrees;
       }
-
-      //Ball will be going backwards from the goal
       robot.setFlywheelPower(autoLaunchPower);
-      sleep(5000);
-      moveRobot(-15, 0, 0, 0.5, 4000);
+
+      if(Wall){
+          moveRobot(36,0,0,0.5,4000);
+          moveRobot(0,0, rotationDegrees,0.5,500);
+      }
+      else {
+          //Ball will be going backwards from the goal
+          moveRobot(-15, 0, 0, 0.5, 4000);
+          sleep(5000);
+      }
       //Robot will launch balls x3
       robot.launchBall(robot.FIRST_LAUNCH_DURATION);
       sleep(4000);
@@ -46,12 +55,13 @@ public class AutoMovementShared {
       moveRobot(0, strafeDistance, 0, 0.5, 4000);
   }
 
-    public void moveRobot(double forward, double strafeLeft, int rotate, double speed, int sleep) {
+    public void moveRobot(double forward, double strafeLeft, double rotateCW, double speed, int sleep) {
         //From 10/59 to 100/59, our factor was off by 10 so 10/59 times 10 = 100/59
         final double FORWARD_RATIO = (100 / 59.0);
         //From 100/50.875 to 120/50.875, our factor is off by 1.2 so 100/50.875 times 1.2 = 120/50.875
         final double SIDE_RATIO = (100 / 50.875) * (1.1);
         final double COUNTS_PER_INCH = (312) / (3.78 * 3.1415);
+        final int rotate = (int) (0.44 * rotateCW);
         final double leftFrontTarget = robot.leftFrontDrive.getCurrentPosition() + (forward * FORWARD_RATIO - strafeLeft * SIDE_RATIO - rotate) * COUNTS_PER_INCH;
 
         robot.leftFrontDrive.setTargetPosition((int) leftFrontTarget);
