@@ -65,7 +65,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
     final double maxLaunchSpeed = 1;
     final double minLaunchSpeed = 0.5;
 
-    final double defaultLaunchSpeed = 0.68;
+    final double defaultLaunchSpeed = 0.66;
 
     double launchPower = defaultLaunchSpeed;
     final double getLaunchSpeedIncrement = 0.01;

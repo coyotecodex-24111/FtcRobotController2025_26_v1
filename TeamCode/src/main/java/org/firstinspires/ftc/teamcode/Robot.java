@@ -22,7 +22,7 @@ public class Robot {
 
     public CRServo leftFeed = null;
     public CRServo rightFeed = null;
-    public final int DEFAULT_FEED_DURATION = 250;
+    public final int DEFAULT_FEED_DURATION = 350;
     //The ball delays in the beginning so this is so it could run as similar to the rest
     public final int FIRST_LAUNCH_DURATION = DEFAULT_FEED_DURATION + 200;
     private final HardwareMap hardwareMap;

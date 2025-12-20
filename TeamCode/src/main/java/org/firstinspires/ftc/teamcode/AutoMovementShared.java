@@ -16,7 +16,7 @@ public class AutoMovementShared {
     //change this factor to 1 for HAMMY
     double TINA_FACTOR_FORWARD = 16/15;
 
-    final double autoLaunchPower = 0.68;
+    final double autoLaunchPower = 0.66;
 
     public AutoMovementShared(Robot hammy, Telemetry telemetry) {
         this.robot = hammy;
@@ -33,16 +33,19 @@ public class AutoMovementShared {
       robot.setFlywheelPower(autoLaunchPower);
 
       if(Wall){
-          moveRobot(36,0,0,0.5,4000);
+          moveRobot(86,0,0,0.5,4000);
           moveRobot(0,0, rotationDegrees,0.5,500);
+          moveRobot(13,0,0,0.5,1000);
       }
       else {
           //Ball will be going backwards from the goal
-          moveRobot(-15, 0, 0, 0.5, 4000);
+          moveRobot(-23, 0, 0, 0.5, 4000);
           sleep(5000);
       }
       //Robot will launch balls x3
       robot.launchBall(robot.FIRST_LAUNCH_DURATION);
+      sleep(4000);
+      robot.launchBall(robot.DEFAULT_FEED_DURATION);
       sleep(4000);
       robot.launchBall(robot.DEFAULT_FEED_DURATION);
       sleep(4000);
@@ -54,6 +57,18 @@ public class AutoMovementShared {
       //Note: positive value = strafe to the left and negative value will strafe to the right
       moveRobot(0, strafeDistance, 0, 0.5, 4000);
   }
+    public void autoNoLaunch(boolean Red, boolean Wall) {
+        double strafeDistance = 15;
+        int rotationDegrees = -45;
+
+        if(Red){
+            strafeDistance = -strafeDistance;
+            rotationDegrees = -rotationDegrees;
+        }
+
+        moveRobot(60,0,0,0.5,4000);
+        moveRobot(0,0,rotationDegrees,0.5,2000);
+    }
 
     public void moveRobot(double forward, double strafeLeft, double rotateCW, double speed, int sleep) {
         //From 10/59 to 100/59, our factor was off by 10 so 10/59 times 10 = 100/59
