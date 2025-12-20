@@ -18,6 +18,7 @@ public class Robot {
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
     public DcMotor flywheel = null;
+    public DcMotor lift = null;
 
     public CRServo leftFeed = null;
     public CRServo rightFeed = null;
@@ -32,7 +33,9 @@ public class Robot {
     //TPR is the rev. of the wheel motors
     final double TICKS_PER_REVOLUTION = 537.7;
 
-    final double servoFeedSpeed = 0.5;
+    final double servoFeedSpeed = 1.0;
+
+    double DEFAULT_LIFT_POWER = 0.5;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
@@ -49,11 +52,16 @@ public class Robot {
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
+        lift = hardwareMap.get(DcMotor.class, "lift0");
+        lift.setDirection(DcMotor.Direction.FORWARD);
+
         flywheel = hardwareMap.get(DcMotor.class, "flywheel");
         flywheel.setDirection(DcMotor.Direction.FORWARD);
 
         leftFeed = hardwareMap.get(CRServo.class, "left_feed");
         rightFeed = hardwareMap.get(CRServo.class, "right_feed");
+
+
 
         telemetry.addLine("Status: Initialized");
         telemetry.update();
@@ -117,6 +125,20 @@ public class Robot {
             throw new RuntimeException(e);
         }
         //telemetry.addData();
+    }
+    public void liftOn(boolean Up){
+        double liftPower = DEFAULT_LIFT_POWER;
+        if (Up) {
+            liftPower = -liftPower;
+        }
+        telemetry.addData("Lift power", "to %4.2f", liftPower);
+        lift.setPower(liftPower);
+    }
+
+    public void liftOff(){
+        double liftPower = 0;
+        telemetry.addData("Lift power", "to %4.2f", liftPower);
+        lift.setPower(liftPower);
     }
 
 }

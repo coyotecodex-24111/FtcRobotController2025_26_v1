@@ -69,6 +69,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     double launchPower = defaultLaunchSpeed;
     final double getLaunchSpeedIncrement = 0.01;
+    final double TRIGGER_THRESHOLD = 0.3;
 
     @Override
     public void init() {
@@ -130,6 +131,13 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         } else if (gamepad1.dpad_left) {
             driveSpeed = 0.7;
             turnSpeed = 0.6;
+        }
+        if (gamepad1.left_bumper){
+            robot.liftOn(true );
+        } else if(gamepad1.left_trigger > TRIGGER_THRESHOLD){
+            robot.liftOn(false);
+        } else {
+            robot.liftOff();
         }
 
         // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
