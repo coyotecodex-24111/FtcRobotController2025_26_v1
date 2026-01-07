@@ -66,7 +66,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
     final double minLaunchSpeed = 0.5;
 
     // FIXME: For testing, start w/ flywheel off
-    final double defaultLaunchSpeed = 0.0
+    final double defaultLaunchSpeed = 0.0;
 
     double launchPower = defaultLaunchSpeed;
     final double getLaunchSpeedIncrement = 0.01;
