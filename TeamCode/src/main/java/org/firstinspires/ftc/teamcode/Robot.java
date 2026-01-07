@@ -4,6 +4,7 @@ import static java.lang.Thread.sleep;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,7 +18,7 @@ public class Robot {
     public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor rightBackDrive = null;
-    public DcMotor flywheel = null;
+    public DcMotorEx flywheel = null;
     public DcMotor lift = null;
 
     public CRServo leftFeed = null;
@@ -55,7 +56,7 @@ public class Robot {
         lift = hardwareMap.get(DcMotor.class, "lift0");
         lift.setDirection(DcMotor.Direction.FORWARD);
 
-        flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+        flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
         flywheel.setDirection(DcMotor.Direction.FORWARD);
 
         leftFeed = hardwareMap.get(CRServo.class, "left_feed");
@@ -139,6 +140,17 @@ public class Robot {
         double liftPower = 0;
         telemetry.addData("Lift power", "to %4.2f", liftPower);
         lift.setPower(liftPower);
+    }
+    private double calculateRPM(DcMotorEx motor, double TICKS_PER_REV) {
+        double ticksPerSecond = motor.getVelocity(); // Get velocity from the motor controller
+        double rotationsPerSecond = ticksPerSecond / TICKS_PER_REV;
+        double rpm = rotationsPerSecond * 60.0; // Convert to rotations per minute
+        return rpm;
+    }
+    public void calculateFlywheelSpeed() {
+        double currentRPM = calculateRPM(flywheel, 28);
+        telemetry.addData("Motor RPM", "%.2f", currentRPM);
+        telemetry.update();
     }
 
 }
