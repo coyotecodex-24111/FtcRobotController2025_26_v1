@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
 import static java.lang.Thread.sleep;
 
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -23,6 +24,7 @@ public class Robot {
 
     public CRServo leftFeed = null;
     public CRServo rightFeed = null;
+
     public final int DEFAULT_FEED_DURATION = 350;
     //The ball delays in the beginning so this is so it could run as similar to the rest
     public final int FIRST_LAUNCH_DURATION = DEFAULT_FEED_DURATION + 200;
@@ -37,6 +39,11 @@ public class Robot {
     final double servoFeedSpeed = 1.0;
 
     double DEFAULT_LIFT_POWER = 0.5;
+
+    public double highVelocity = 1500;
+    public double lowVelocity = 900;
+
+    double curTargetVelocity = highVelocity;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
@@ -58,6 +65,7 @@ public class Robot {
 
         flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
         flywheel.setDirection(DcMotor.Direction.FORWARD);
+        flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         leftFeed = hardwareMap.get(CRServo.class, "left_feed");
         rightFeed = hardwareMap.get(CRServo.class, "right_feed");
@@ -150,7 +158,11 @@ public class Robot {
     public void calculateFlywheelSpeed() {
         double currentRPM = calculateRPM(flywheel, 28);
         telemetry.addData("Motor RPM", "%.2f", currentRPM);
-        telemetry.update();
+        //telemetry.update();
+    }
+    public void setTargetVelocity(double targetVelocity) {
+        flywheel.setVelocity(targetVelocity);
+        telemetry.addData("Target Velocity ", "%.2f", targetVelocity);
     }
 
 }

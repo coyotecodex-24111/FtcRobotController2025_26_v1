@@ -38,8 +38,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 // import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.util.Timer;
-
 // import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 // Linear Opmode is for sequential code like in Autonomous operation
@@ -65,11 +63,12 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
     final double maxLaunchSpeed = 1;
     final double minLaunchSpeed = 0.5;
 
-    final double defaultLaunchSpeed = 0.66;
 
-    double launchPower = defaultLaunchSpeed;
-    final double getLaunchSpeedIncrement = 0.01;
     final double TRIGGER_THRESHOLD = 0.3;
+
+    final double DEFAULT_RPM = 4000;
+    double targetVelocity = DEFAULT_RPM;
+    double VELOCITY_STEP = 50;
 
     @Override
     public void init() {
@@ -93,27 +92,27 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     @Override
     public void start() {
-        robot.flywheel.setPower(launchPower);
+        robot.setTargetVelocity(targetVelocity);
         telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
         telemetry.addData("Status", "Started for TeleOp (START)");
         telemetry.update();
+
+
     }
 
     @Override
     public void loop() {
-        if (gamepad2.dpad_up) {
-            adjustFlyheelSpeed(true);
-        } else if (gamepad2.dpad_down) {
-            adjustFlyheelSpeed(false);
+        robot.calculateFlywheelSpeed();
+        if (gamepad2.dpadUpWasPressed()) {
+            adjustVelocity(true);
+        } else if (gamepad2.dpadDownWasPressed()) {
+            adjustVelocity(false);
         }
         if (gamepad2.b) {
-            robot.setFlywheelPower(0);
-        }
-        if (gamepad2.y) {
-            robot.setFlywheelPower(minLaunchSpeed);
+            robot.setTargetVelocity(0);
         }
         if (gamepad2.x) {
-            robot.setFlywheelPower(launchPower);
+            robot.setTargetVelocity(targetVelocity);
         }
         if (gamepad2.a) {
             robot.launchBall(robot.DEFAULT_FEED_DURATION);
@@ -186,16 +185,20 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         robot.rightFrontDrive.setPower(rightFrontPower);
         robot.leftBackDrive.setPower(leftBackPower);
         robot.rightBackDrive.setPower(rightBackPower);
+
+        double curVelocity = robot.flywheel.getVelocity();
+        double error = targetVelocity - curVelocity;
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status (Version: " + VERSION + ")", "Run Time: " + runtime);
         telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
         telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-        telemetry.addData("Launch speed:", "%4.2f", launchPower);
+        telemetry.addData("Target Velocity ", "%.2f", targetVelocity);
+        //telemetry.addData("Error", "%.2f", error);
         telemetry.update();
     }
 
 
-    private void adjustFlyheelSpeed(boolean increaseSpeed) {
+   /* private void adjustFlyheelSpeed(boolean increaseSpeed) {
         double currentTime = runtime.time();
 
         if (currentTime - timeOfLastFlywheelUpdate >= minTimeBetweenFlywheelUpdates) {
@@ -213,5 +216,13 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
             }
             robot.setFlywheelPower(launchPower);
         }
+    }*/
+    private void adjustVelocity(boolean increaseVelocity){
+        if(increaseVelocity){
+            targetVelocity += VELOCITY_STEP;
+        } else {
+            targetVelocity -= VELOCITY_STEP;
+        }
+        robot.setTargetVelocity(targetVelocity);
     }
 }
