@@ -59,14 +59,16 @@ public class AutoMovementShared {
   }
     public void autoNoLaunch(boolean Red, boolean Wall) {
         double strafeDistance = 20;
-        int rotationDegrees = -30;
+        int rotationDegrees = -25;
 
         if(Red){
             strafeDistance = -strafeDistance;
             rotationDegrees = -rotationDegrees;
         }
 
-        moveRobot(60,0,0,0.5,4000);
+        moveRobot(0,0,-45,0.5,4000);
+        moveRobot(-40,0,0,0.5,4000);
+
         //moveRobot(0,0,rotationDegrees,0.5,2000);
     }
 

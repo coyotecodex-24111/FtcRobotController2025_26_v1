@@ -33,7 +33,7 @@ public class AutoModeBasicNoLaunchV1 extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            autoMove.autoNoLaunch(true, false);
+            autoMove.autoNoLaunch(false, false);
         }
     }
 }
