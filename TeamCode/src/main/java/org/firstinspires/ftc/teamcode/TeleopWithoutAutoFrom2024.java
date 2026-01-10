@@ -114,7 +114,7 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         if (gamepad2.x) {
             robot.setTargetVelocity(targetVelocity);
         }
-        if (gamepad2.a) {
+        if (gamepad2.aWasPressed()) {
             robot.launchBall(robot.DEFAULT_FEED_DURATION);
         }
         // Speed control with dpad. Like a knob where the top is highest.
