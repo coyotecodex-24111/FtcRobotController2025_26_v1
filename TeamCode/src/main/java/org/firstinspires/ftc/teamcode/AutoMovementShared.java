@@ -35,7 +35,7 @@ public class AutoMovementShared {
           moveRobot(72,0,0,0.5,4000);
           moveRobot(0,0, rotationDegrees,0.5,500);
           //moveRobot(13,0,0,0.5,1000);
-          sleep(2500);
+          sleep(3000);
       }
       else {
           //Ball will be going backwards from the goal
