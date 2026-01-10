@@ -11,26 +11,28 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 @TeleOp // Registers this OpMode as a TeleOp.
 public class CoachPrattPIDFCode extends OpMode {
     public DcMotorEx flywheelMotor;
+    private Robot robot;
 
-    public double highVelocity = 1500;
-    public double lowVelocity = 900;
+
+    public double highVelocity = 1727;
+    public double lowVelocity = 933;
 
     double curTargetVelocity = highVelocity;
 
     // Initial PIDF coefficients for tuning.
-    double F = 14.098; // Feedforward gain to counteract constant forces like friction.
+    double F = 13.2; // Feedforward gain to counteract constant forces like friction.
     double P = 265;    // Proportional gain to correct error based on how far off the velocity is.
 
     // Array of step sizes for making fine or coarse adjustments to P and F.
-    double[] stepSizes = {10.0, 1.0, 0.1, 0.001, 0.0001};
+    double[] stepSizes = {10.0, 1.0, 0.1, 0.01, 0.001};
     // Index to select the current step size from the array.
     int stepIndex = 1;
 
     @Override
     public void init() {
-        flywheelMotor = hardwareMap.get(DcMotorEx.class, "motor");
-        flywheelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheelMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot = new Robot(hardwareMap, telemetry);
+        robot.init();
+        flywheelMotor = robot.flywheel;
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
         flywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);

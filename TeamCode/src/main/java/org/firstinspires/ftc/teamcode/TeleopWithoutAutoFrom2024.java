@@ -66,9 +66,9 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     final double TRIGGER_THRESHOLD = 0.3;
 
-    final double DEFAULT_RPM = 4000;
+    final double DEFAULT_RPM = 3900;
     double targetVelocity = DEFAULT_RPM;
-    double VELOCITY_STEP = 50;
+    double VELOCITY_STEP = 10;
 
     @Override
     public void init() {

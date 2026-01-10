@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import static android.os.SystemClock.sleep;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -16,7 +15,7 @@ public class AutoMovementShared {
     //change this factor to 1 for HAMMY
     double TINA_FACTOR_FORWARD = 16/15;
 
-    final double autoLaunchPower = 0.64;
+    final double autoLaunchRPM = 3920;
 
     public AutoMovementShared(Robot hammy, Telemetry telemetry) {
         this.robot = hammy;
@@ -30,27 +29,28 @@ public class AutoMovementShared {
           strafeDistance = -strafeDistance;
           rotationDegrees = -rotationDegrees;
       }
-      robot.setFlywheelPower(autoLaunchPower);
+      robot.setTargetVelocity(autoLaunchRPM);
 
       if(Wall){
-          moveRobot(86,0,0,0.5,4000);
+          moveRobot(72,0,0,0.5,4000);
           moveRobot(0,0, rotationDegrees,0.5,500);
-          moveRobot(13,0,0,0.5,1000);
+          //moveRobot(13,0,0,0.5,1000);
+          sleep(2500);
       }
       else {
           //Ball will be going backwards from the goal
-          moveRobot(-23, 0, 0, 0.5, 4000);
+          moveRobot(-65, 0, 0, 0.5, 4000);
           sleep(5000);
       }
       //Robot will launch balls x3
       robot.launchBall(robot.FIRST_LAUNCH_DURATION);
-      sleep(4000);
+      sleep(2500);
       robot.launchBall(robot.DEFAULT_FEED_DURATION);
-      sleep(4000);
+      sleep(2500);
       robot.launchBall(robot.DEFAULT_FEED_DURATION);
-      sleep(4000);
+      sleep(2500);
       robot.launchBall(robot.DEFAULT_FEED_DURATION);
-      sleep(4000);
+      sleep(2500);
       robot.launchBall(robot.DEFAULT_FEED_DURATION);
       robot.setFlywheelPower(0);
       //Robot will be moving to the left
@@ -58,7 +58,7 @@ public class AutoMovementShared {
       moveRobot(0, strafeDistance, 0, 0.5, 4000);
   }
     public void autoNoLaunch(boolean Red, boolean Wall) {
-        double strafeDistance = 15;
+        double strafeDistance = 20;
         int rotationDegrees = -30;
 
         if(Red){

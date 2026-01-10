@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -70,6 +71,12 @@ public class Robot {
         leftFeed = hardwareMap.get(CRServo.class, "left_feed");
         rightFeed = hardwareMap.get(CRServo.class, "right_feed");
 
+
+        double F = 13.2; // Feedforward gain to counteract constant forces like friction.
+        double P = 265;
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
+        // Apply the new coefficients to the motor in every loop iteration.
+        flywheel.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
 
         telemetry.addLine("Status: Initialized");
