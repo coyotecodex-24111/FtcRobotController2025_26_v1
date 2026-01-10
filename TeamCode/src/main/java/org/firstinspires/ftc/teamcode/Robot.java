@@ -160,9 +160,12 @@ public class Robot {
         telemetry.addData("Motor RPM", "%.2f", currentRPM);
         //telemetry.update();
     }
-    public void setTargetVelocity(double targetVelocity) {
+    public void setTargetVelocity(double targetRPM) {
+        double targetVelocity = targetRPM * 28/60;
         flywheel.setVelocity(targetVelocity);
         telemetry.addData("Target Velocity ", "%.2f", targetVelocity);
+        telemetry.addData("Target RPM ", "%.2f", targetRPM);
+
     }
 
 }
