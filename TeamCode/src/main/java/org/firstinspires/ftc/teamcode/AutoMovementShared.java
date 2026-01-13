@@ -15,7 +15,7 @@ public class AutoMovementShared {
     //change this factor to 1 for HAMMY
     double TINA_FACTOR_FORWARD = 16/15;
 
-    final double autoLaunchRPM = 3920;
+    final double autoLaunchRPM = 3870;
 
     public AutoMovementShared(Robot hammy, Telemetry telemetry) {
         this.robot = hammy;
