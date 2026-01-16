@@ -72,7 +72,7 @@ public class Robot {
         rightFeed = hardwareMap.get(CRServo.class, "right_feed");
 
 
-        double F = 13.2; // Feedforward gain to counteract constant forces like friction.
+        double F = 14.258; // Feedforward gain to counteract constant forces like friction.
         double P = 265;
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
         // Apply the new coefficients to the motor in every loop iteration.
@@ -164,15 +164,13 @@ public class Robot {
     }
     public void calculateFlywheelSpeed() {
         double currentRPM = calculateRPM(flywheel, 28);
-        telemetry.addData("Motor RPM", "%.2f", currentRPM);
+        //telemetry.addData("Motor RPM", "%.2f", currentRPM);
         //telemetry.update();
     }
-    public void setTargetVelocity(double targetRPM) {
-        double targetVelocity = targetRPM * 28/60;
+    public void setTargetVelocity(double targetVelocity) {
+        //targetVelocity = 28/60;
         flywheel.setVelocity(targetVelocity);
         telemetry.addData("Target Velocity ", "%.2f", targetVelocity);
-        telemetry.addData("Target RPM ", "%.2f", targetRPM);
-
     }
 
 }

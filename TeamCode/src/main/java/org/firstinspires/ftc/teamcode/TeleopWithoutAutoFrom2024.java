@@ -66,9 +66,9 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     final double TRIGGER_THRESHOLD = 0.3;
 
-    final double DEFAULT_RPM = 3900;
-    double targetVelocity = DEFAULT_RPM;
-    double VELOCITY_STEP = 10;
+    final double DEFAULT_VELOCITY = 1810;
+    double targetVelocity = DEFAULT_VELOCITY;
+    double VELOCITY_STEP = 5;
 
     @Override
     public void init() {
@@ -193,6 +193,8 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
         telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
         telemetry.addData("Target Velocity ", "%.2f", targetVelocity);
+        telemetry.addData("Current Velocity", "%.2f", curVelocity);
+        telemetry.addData("Error","%.2f", error);
         //telemetry.addData("Error", "%.2f", error);
         telemetry.update();
     }

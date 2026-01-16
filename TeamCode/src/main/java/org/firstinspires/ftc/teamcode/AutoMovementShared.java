@@ -15,7 +15,7 @@ public class AutoMovementShared {
     //change this factor to 1 for HAMMY
     double TINA_FACTOR_FORWARD = 16/15;
 
-    final double autoLaunchRPM = 3870;
+    final double autoLaunchvelocity = 1806;
 
     public AutoMovementShared(Robot hammy, Telemetry telemetry) {
         this.robot = hammy;
@@ -29,7 +29,7 @@ public class AutoMovementShared {
           strafeDistance = -strafeDistance;
           rotationDegrees = -rotationDegrees;
       }
-      robot.setTargetVelocity(autoLaunchRPM);
+      robot.setTargetVelocity(autoLaunchvelocity);
 
       if(Wall){
           moveRobot(67,0,0,0.5,4000);
