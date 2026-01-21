@@ -14,14 +14,14 @@ public class CoachPrattPIDFCode extends OpMode {
     private Robot robot;
 
 
-    public double highVelocity = 1727;
-    public double lowVelocity = 933;
+    public double highVelocity = 1720;
+    public double lowVelocity = 1220;
 
     double curTargetVelocity = highVelocity;
 
     // Initial PIDF coefficients for tuning.
-    double F = 13.2; // Feedforward gain to counteract constant forces like friction.
-    double P = 265;    // Proportional gain to correct error based on how far off the velocity is.
+    double F = 0; // Feedforward gain to counteract constant forces like friction.
+    double P = 388;    // Proportional gain to correct error based on how far off the velocity is.
 
     // Array of step sizes for making fine or coarse adjustments to P and F.
     double[] stepSizes = {10.0, 1.0, 0.1, 0.01, 0.001};

@@ -66,8 +66,8 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
 
     final double TRIGGER_THRESHOLD = 0.3;
 
-    final double DEFAULT_VELOCITY = 1810;
-    double targetVelocity = DEFAULT_VELOCITY;
+    final double DEFAULT_MEDIUM_VELOCITY = 1720;
+    double targetVelocity = DEFAULT_MEDIUM_VELOCITY;
     double VELOCITY_STEP = 5;
 
     @Override
@@ -117,13 +117,14 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         if (gamepad2.aWasPressed()) {
             robot.launchBall(robot.DEFAULT_FEED_DURATION);
         }
+
         // Speed control with dpad. Like a knob where the top is highest.
         if (gamepad1.dpad_up) {
             driveSpeed = 1;
             turnSpeed = 1;
         } else if (gamepad1.dpad_right) {
-            driveSpeed = 0.1;
-            turnSpeed = 0.1;
+            driveSpeed = 0.2;
+            turnSpeed = 0.2;
         } else if (gamepad1.dpad_down) {
             driveSpeed = 0.4;
             turnSpeed = 0.3;

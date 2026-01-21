@@ -72,8 +72,8 @@ public class Robot {
         rightFeed = hardwareMap.get(CRServo.class, "right_feed");
 
 
-        double F = 14.258; // Feedforward gain to counteract constant forces like friction.
-        double P = 265;
+        double F = 11.5; // Feedforward gain to counteract constant forces like friction.
+        double P = 388;
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
         // Apply the new coefficients to the motor in every loop iteration.
         flywheel.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
