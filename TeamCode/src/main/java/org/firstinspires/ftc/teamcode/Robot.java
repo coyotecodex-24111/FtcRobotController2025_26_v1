@@ -41,10 +41,11 @@ public class Robot {
 
     double DEFAULT_LIFT_POWER = 0.5;
 
-    public double highVelocity = 1500;
-    public double lowVelocity = 900;
+    final double DEFAULT_LONG_VELOCITY = 1720;
+    final double DEFAULT_SHORT_VELOCITY = 1680;
+    final double VELOCITY_STEP = 5;
 
-    double curTargetVelocity = highVelocity;
+    double curTargetVelocity;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
@@ -168,9 +169,17 @@ public class Robot {
         //telemetry.update();
     }
     public void setTargetVelocity(double targetVelocity) {
-        //targetVelocity = 28/60;
+        curTargetVelocity = targetVelocity;
         flywheel.setVelocity(targetVelocity);
         telemetry.addData("Target Velocity ", "%.2f", targetVelocity);
+    }
+    public void adjustVelocity(boolean increaseVelocity){
+        if(increaseVelocity){
+            curTargetVelocity += VELOCITY_STEP;
+        } else {
+            curTargetVelocity -= VELOCITY_STEP;
+        }
+        setTargetVelocity(curTargetVelocity);
     }
 
 }
