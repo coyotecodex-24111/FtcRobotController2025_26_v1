@@ -4,20 +4,17 @@ package org.firstinspires.ftc.teamcode;
 //import static org.firstinspires.ftc.teamcode.Direction.LEFT;
 //import static org.firstinspires.ftc.teamcode.Direction.RIGHT;
 
-import static org.firstinspires.ftc.teamcode.AutoMovementShared.*;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 // Linear Opmode is for sequential code like in Autonomous operation
 // (doing things in a linear fashion, one after the other.
 
-@Autonomous(name="AutoModeBasicNoLaunchRedWallV1", group="Auto Basic")
+@Autonomous(name="AutoRedGoalShort", group="Auto Basic")
 
-public class AutoModeBasicNoLaunchRedWallV1 extends LinearOpMode {
+public class AutoRedGoalShort extends LinearOpMode {
     private Robot robot;
     private AutoMovementShared autoMove;
     public final double VERSION = 1;
@@ -33,7 +30,7 @@ public class AutoModeBasicNoLaunchRedWallV1 extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            autoMove.autoNoLaunch(true, false);
+            autoMove.autoForGoal(true, false, false);
         }
     }
 }

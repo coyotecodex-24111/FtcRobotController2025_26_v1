@@ -22,7 +22,7 @@ public class AutoMovementShared {
         this.robot = hammy;
         this.telemetry = telemetry;
     }
-  public void autoForGoal(boolean Red, boolean Wall) {
+  public void autoForGoal(boolean Red, boolean Wall, boolean Long) {
       double strafeDistance = 20;
       int rotationDegrees = -45;
 
@@ -39,11 +39,18 @@ public class AutoMovementShared {
           moveRobot(0,0, rotationDegrees,0.5,1000);
           //moveRobot(13,0,0,0.5,1000);
       }
-      else {
+      else { //Starting from GOAL
           //Ball will be going backwards from the goal
-          moveRobot(-61, 0, 0, 0.5, 3000);
-          sleep(2000);
+          if(Long) {
+              moveRobot(-61, 0, 0, 0.5, 3000);
+              sleep(2000);
+          }
+          else {
+              moveRobot(-40, 0, 0, 0.5, 3000);
+              sleep(2000);
+          }
       }
+
       //Robot will launch balls x3
       robot.launchBall(robot.FIRST_LAUNCH_DURATION);
       sleep(feedwheelSleepDuration);
