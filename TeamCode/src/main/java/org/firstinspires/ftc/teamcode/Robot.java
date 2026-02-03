@@ -26,7 +26,7 @@ public class Robot {
     public CRServo leftFeed = null;
     public CRServo rightFeed = null;
 
-    public final int DEFAULT_FEED_DURATION = 350;
+    public final int DEFAULT_FEED_DURATION = 430;
     //The ball delays in the beginning so this is so it could run as similar to the rest
     public final int FIRST_LAUNCH_DURATION = DEFAULT_FEED_DURATION + 200;
     private final HardwareMap hardwareMap;
@@ -41,7 +41,7 @@ public class Robot {
 
     double DEFAULT_LIFT_POWER = 0.5;
 
-    final double DEFAULT_LONG_VELOCITY = 1720;
+    final double DEFAULT_LONG_VELOCITY = 1780;
     final double DEFAULT_SHORT_VELOCITY = 1680;
     final double VELOCITY_STEP = 5;
 
@@ -128,7 +128,7 @@ public class Robot {
     }
     public void launchBall(int duration) {
         leftFeed.setPower(-servoFeedSpeed);
-        rightFeed.setPower(-servoFeedSpeed);
+        rightFeed.setPower(servoFeedSpeed);
         try {
             sleep(duration);
         } catch (InterruptedException e) {

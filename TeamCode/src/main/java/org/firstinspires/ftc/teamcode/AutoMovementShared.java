@@ -15,7 +15,8 @@ public class AutoMovementShared {
     //change this factor to 1 for HAMMY
     double TINA_FACTOR_FORWARD = 16/15;
 
-    final double autoLaunchvelocity = 1806;
+    final double autoLaunchvelocity = 1740;
+    final long feedwheelSleepDuration = 1000;
 
     public AutoMovementShared(Robot hammy, Telemetry telemetry) {
         this.robot = hammy;
@@ -31,26 +32,27 @@ public class AutoMovementShared {
       }
       robot.setTargetVelocity(autoLaunchvelocity);
 
+      //TOTAL: 5500ms for the flywheel to get up to speed
+
       if(Wall){
-          moveRobot(67,0,0,0.5,4000);
-          moveRobot(0,0, rotationDegrees,0.5,500);
+          moveRobot(74,0,0,0.5,3000);
+          moveRobot(0,0, rotationDegrees,0.5,1000);
           //moveRobot(13,0,0,0.5,1000);
-          sleep(3000);
       }
       else {
           //Ball will be going backwards from the goal
-          moveRobot(-65, 0, 0, 0.5, 4000);
-          sleep(5000);
+          moveRobot(-61, 0, 0, 0.5, 3000);
+          sleep(2000);
       }
       //Robot will launch balls x3
       robot.launchBall(robot.FIRST_LAUNCH_DURATION);
-      sleep(2500);
+      sleep(feedwheelSleepDuration);
       robot.launchBall(robot.DEFAULT_FEED_DURATION);
-      sleep(2500);
+      sleep(feedwheelSleepDuration);
       robot.launchBall(robot.DEFAULT_FEED_DURATION);
-      sleep(2500);
+      sleep(feedwheelSleepDuration);
       robot.launchBall(robot.DEFAULT_FEED_DURATION);
-      sleep(2500);
+      sleep(feedwheelSleepDuration);
       robot.launchBall(robot.DEFAULT_FEED_DURATION);
       robot.setFlywheelPower(0);
       //Robot will be moving to the left
@@ -74,6 +76,7 @@ public class AutoMovementShared {
 
     public void moveRobot(double forward, double strafeLeft, double rotateCW, double speed, int sleep) {
         //From 10/59 to 100/59, our factor was off by 10 so 10/59 times 10 = 100/59
+        // Fudge factor is off, the distance isn't as accurate as desired, 72/70.5 * 0.92 = 0.94
         final double FORWARD_RATIO = (100 / 59.0) * (0.92);
         //From 100/50.875 to 120/50.875, our factor is off by 1.2 so 100/50.875 times 1.2 = 120/50.875
         final double SIDE_RATIO = (100 / 50.875) * (1.1);

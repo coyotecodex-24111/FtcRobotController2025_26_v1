@@ -20,7 +20,7 @@ public class CoachPrattPIDFCode extends OpMode {
     double curTargetVelocity = highVelocity;
 
     // Initial PIDF coefficients for tuning.
-    double F = 0; // Feedforward gain to counteract constant forces like friction.
+    double F = 11.5; // Feedforward gain to counteract constant forces like friction.
     double P = 388;    // Proportional gain to correct error based on how far off the velocity is.
 
     // Array of step sizes for making fine or coarse adjustments to P and F.
