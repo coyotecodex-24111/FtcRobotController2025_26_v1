@@ -27,7 +27,7 @@ public class Robot {
     public CRServo rightFeed = null;
 
     // some double launch at 400
-    public final int DEFAULT_FEED_DURATION = 390;
+    public final int DEFAULT_FEED_DURATION = 370;
     //The ball delays in the beginning so this is so it could run as similar to the rest
     public final int FIRST_LAUNCH_DURATION = DEFAULT_FEED_DURATION + 200;
     private final HardwareMap hardwareMap;
@@ -44,7 +44,8 @@ public class Robot {
 
     final double DEFAULT_LONG_VELOCITY = 1780;
     final double DEFAULT_SHORT_VELOCITY = 1680;
-    final double VELOCITY_STEP = 5;
+    final double DEFAULT_WALL_VELOCITY = 2010;
+    final double VELOCITY_STEP = 10;
 
     double curTargetVelocity;
 

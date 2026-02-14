@@ -119,19 +119,21 @@ public class TeleopWithoutAutoFrom2024 extends OpMode {
         } else if (gamepad2.left_trigger > TRIGGER_THRESHOLD) {
             robot.setTargetVelocity(robot.DEFAULT_LONG_VELOCITY);
         }
+        if(gamepad2.right_trigger > TRIGGER_THRESHOLD)
+            robot.setTargetVelocity(robot.DEFAULT_WALL_VELOCITY);
 
         // Speed control with dpad. Like a knob where the top is highest.
         if (gamepad1.dpad_up) {
-            driveSpeed = 1;
-            turnSpeed = 1;
+            driveSpeed = 0.7;
+            turnSpeed = 0.7;
         } else if (gamepad1.dpad_right) {
             driveSpeed = 0.2;
-            turnSpeed = 0.2;
+            turnSpeed = 0.1;
         } else if (gamepad1.dpad_down) {
-            driveSpeed = 0.4;
+            driveSpeed = 0.35;
             turnSpeed = 0.3;
         } else if (gamepad1.dpad_left) {
-            driveSpeed = 0.7;
+            driveSpeed = 0.5;
             turnSpeed = 0.6;
         }
         if (gamepad1.left_bumper){

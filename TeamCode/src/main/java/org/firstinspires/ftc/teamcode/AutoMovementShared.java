@@ -15,7 +15,9 @@ public class AutoMovementShared {
     //change this factor to 1 for HAMMY
     double TINA_FACTOR_FORWARD = 16/15;
 
-    final double autoLaunchvelocity = 1740;
+    final double autoLaunchLong = 1740;
+    final double autoLaunchShort = 1680;
+    final double autoLaunchWall = 2010;
     final long feedwheelSleepDuration = 1000;
 
     public AutoMovementShared(Robot hammy, Telemetry telemetry) {
@@ -30,22 +32,30 @@ public class AutoMovementShared {
           strafeDistance = -strafeDistance;
           rotationDegrees = -rotationDegrees;
       }
-      robot.setTargetVelocity(autoLaunchvelocity);
 
       //TOTAL: 5500ms for the flywheel to get up to speed
 
       if(Wall){
-          moveRobot(74,0,0,0.5,3000);
-          moveRobot(0,0, rotationDegrees,0.5,1000);
-          //moveRobot(13,0,0,0.5,1000);
+          if(Long) {
+              robot.setTargetVelocity(autoLaunchLong);
+              moveRobot(74, 0, 0, 0.5, 3000);
+              moveRobot(0, 0, rotationDegrees, 0.5, 1000);
+              //moveRobot(13,0,0,0.5,1000);
+          }
+          else {
+              robot.setTargetVelocity(autoLaunchWall);
+          }
       }
-      else { //Starting from GOAL
+      else {
+          //Starting from GOAL
           //Ball will be going backwards from the goal
           if(Long) {
+              robot.setTargetVelocity(autoLaunchLong);
               moveRobot(-61, 0, 0, 0.5, 3000);
               sleep(2000);
           }
           else {
+              robot.setTargetVelocity(autoLaunchShort);
               moveRobot(-40, 0, 0, 0.5, 3000);
               sleep(2000);
           }
@@ -74,9 +84,13 @@ public class AutoMovementShared {
             strafeDistance = -strafeDistance;
             rotationDegrees = -rotationDegrees;
         }
-
-        moveRobot(0,0,-45,0.5,4000);
-        moveRobot(-40,0,0,0.5,4000);
+        if(Wall) {
+        moveRobot(24,0,0,0.5,4000);
+        }
+        else {
+            moveRobot(0, 0, -45, 0.5, 4000);
+            moveRobot(-40, 0, 0, 0.5, 4000);
+        }
 
         //moveRobot(0,0,rotationDegrees,0.5,2000);
     }
