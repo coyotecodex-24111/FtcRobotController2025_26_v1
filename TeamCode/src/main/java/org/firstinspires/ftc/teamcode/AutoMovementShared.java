@@ -122,14 +122,10 @@ public class AutoMovementShared {
     public void LaunchNBalls(int N){
         //Robot will launch balls x3
         robot.launchBall(robot.FIRST_LAUNCH_DURATION);
-        sleep(feedwheelSleepDuration);
-        robot.launchBall(robot.DEFAULT_FEED_DURATION);
-        sleep(feedwheelSleepDuration);
-        robot.launchBall(robot.DEFAULT_FEED_DURATION);
-        sleep(feedwheelSleepDuration);
-        robot.launchBall(robot.DEFAULT_FEED_DURATION);
-        sleep(feedwheelSleepDuration);
-        robot.launchBall(robot.DEFAULT_FEED_DURATION);
+        for(int i = 2; i <= N; i++) {
+            sleep(feedwheelSleepDuration);
+            robot.launchBall(robot.DEFAULT_FEED_DURATION);
+        }
         robot.setFlywheelPower(0);
     }
 }

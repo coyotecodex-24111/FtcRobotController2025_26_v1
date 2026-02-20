@@ -138,12 +138,6 @@ public class Robot {
         }
         leftFeed.setPower(0);
         rightFeed.setPower(0);
-       /* try {
-            //sleep(500);
-       // } catch (InterruptedException e) {
-          //  throw new RuntimeException(e);
-        } */
-        //telemetry.addData();
     }
     public void liftOn(boolean Up){
         double liftPower = DEFAULT_LIFT_POWER;
