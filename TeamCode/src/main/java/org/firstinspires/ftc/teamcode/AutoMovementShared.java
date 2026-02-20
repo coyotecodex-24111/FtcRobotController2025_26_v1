@@ -119,7 +119,7 @@ public class AutoMovementShared {
 
         sleep(sleep);
     }
-    public void LanchNBalls(int N){
+    public void LaunchNBalls(int N){
         //Robot will launch balls x3
         robot.launchBall(robot.FIRST_LAUNCH_DURATION);
         sleep(feedwheelSleepDuration);
