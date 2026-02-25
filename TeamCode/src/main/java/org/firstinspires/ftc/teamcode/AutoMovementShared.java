@@ -44,6 +44,11 @@ public class AutoMovementShared {
           }
           else {
               robot.setTargetVelocity(autoLaunchWall);
+              rotateBegin(false,0.2);
+              sleep(300);
+              robot.stopAllDriveMotors();
+              launchNBalls(5);
+              sleep(1000);
           }
       }
       else {
@@ -119,7 +124,7 @@ public class AutoMovementShared {
 
         sleep(sleep);
     }
-    public void LaunchNBalls(int N){
+    public void launchNBalls(int N){
         //Robot will launch balls x3
         robot.launchBall(robot.FIRST_LAUNCH_DURATION);
         for(int i = 2; i <= N; i++) {
@@ -127,5 +132,16 @@ public class AutoMovementShared {
             robot.launchBall(robot.DEFAULT_FEED_DURATION);
         }
         robot.setFlywheelPower(0);
+    }
+    public void rotateBegin(boolean rotateCW, double speed) {
+        robot.driveUsingEncoder();
+
+        if(!rotateCW) {
+            speed = -speed;
+        }
+            robot.leftFrontDrive.setPower(speed);
+            robot.rightFrontDrive.setPower(-speed);
+            robot.leftBackDrive.setPower(speed);
+            robot.rightBackDrive.setPower(-speed);
     }
 }
