@@ -20,6 +20,8 @@ public class AutoMovementShared {
     final double autoLaunchWall = 2010;
     final long feedwheelSleepDuration = 1000;
 
+    final int ballsToLaunch = 5;
+
     public AutoMovementShared(Robot hammy, Telemetry telemetry) {
         this.robot = hammy;
         this.telemetry = telemetry;
@@ -40,6 +42,7 @@ public class AutoMovementShared {
               robot.setTargetVelocity(autoLaunchLong);
               moveRobot(74, 0, 0, 0.5, 3000);
               moveRobot(0, 0, rotationDegrees, 0.5, 1000);
+              launchNBalls(ballsToLaunch);
               //moveRobot(13,0,0,0.5,1000);
           }
           else {
@@ -47,7 +50,7 @@ public class AutoMovementShared {
               rotateBegin(false,0.2);
               sleep(300);
               robot.stopAllDriveMotors();
-              launchNBalls(5);
+              launchNBalls(ballsToLaunch);
               sleep(1000);
           }
       }
@@ -58,11 +61,13 @@ public class AutoMovementShared {
               robot.setTargetVelocity(autoLaunchLong);
               moveRobot(-61, 0, 0, 0.5, 3000);
               sleep(2000);
+              launchNBalls(ballsToLaunch);
           }
           else {
               robot.setTargetVelocity(autoLaunchShort);
               moveRobot(-40, 0, 0, 0.5, 3000);
               sleep(2000);
+              launchNBalls(ballsToLaunch);
           }
       }
 
