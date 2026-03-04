@@ -77,7 +77,7 @@ public class AutoMovementShared {
       moveRobot(0, strafeDistance, 0, 0.5, 4000);
   }
     public void autoNoLaunch(boolean Red, boolean Wall) {
-        double strafeDistance = 20;
+        double strafeDistance = 5;
         int rotationDegrees = -25;
 
         if(Red){
@@ -85,7 +85,10 @@ public class AutoMovementShared {
             rotationDegrees = -rotationDegrees;
         }
         if(Wall) {
-        moveRobot(24,0,0,0.5,4000);
+            //start on the edge of the small launch zone, wheel in the launch zone
+            sleep(25000);
+            moveRobot(2,0,0,0.5,1000);
+            moveRobot(0,strafeDistance,0,0.5,2000);
         }
         else {
             moveRobot(0, 0, -45, 0.5, 4000);

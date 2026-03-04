@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // Linear Opmode is for sequential code like in Autonomous operation
 // (doing things in a linear fashion, one after the other.
 
-@Autonomous(name="AutoNoLaunchRedWall5''2'", group="Auto Basic")
+@Autonomous(name="AutoNoLaunchRedWall", group="Auto Basic")
 
 public class AutoNoLaunchRedWall extends LinearOpMode {
     private Robot robot;

@@ -30,7 +30,7 @@ public class AutoNoLaunchBlueWall extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            autoMove.autoNoLaunch(false, false);
+            autoMove.autoNoLaunch(false, true);
         }
     }
 }
